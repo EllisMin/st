@@ -25,10 +25,6 @@ public class MainActivity extends Activity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    ParseObject score = new ParseObject("Score");
-    score.put("username", "rob");
-    score.put("score", 96);
-    score.saveInBackground();
 
 
     ParseAnalytics.trackAppOpenedInBackground(getIntent());
