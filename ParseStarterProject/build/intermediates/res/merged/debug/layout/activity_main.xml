@@ -25,4 +25,8 @@
         android:layout_centerHorizontal="true"
         android:src="@drawable/reader" />
 </RelativeLayout>
+<<<<<<< HEAD
 <!-- From: file:/Users/taehongmin/AndroidStudioProjects/stugether/ParseStarterProject/src/main/res/layout/activity_main.xml -->
+=======
+<!-- From: file:/C:/Users/Junwoo/Desktop/stugether/ParseStarterProject/src/main/res/layout/activity_main.xml -->
+>>>>>>> master
