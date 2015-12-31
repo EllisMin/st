@@ -16,15 +16,18 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 public class Register extends AppCompatActivity implements View.OnClickListener {
 
-    private static final int RESULT_LOAD_IMAGE = 1;
-
+    Bitmap bitmapImage;
     EditText usernameField;
     EditText emailField;
     EditText passwordField;
@@ -40,12 +43,33 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
     // When hit signup button
     public void signupBtn(View view){
 
-        // Creating new user based on fields
         ParseUser user = new ParseUser();
+        // Creating new user based on fields
         user.setUsername(String.valueOf(usernameField.getText()));
         user.setEmail(String.valueOf(emailField.getText()));
         user.setPassword(String.valueOf(passwordField.getText()));
-        user.put("photo", profilePhoto);
+
+        // Storing image in byteArray
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+
+        ParseFile file = new ParseFile("profile.png", byteArray);
+
+        user.put("photo", file);
+
+        user.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    Log.i("APPINFO", "Image uploaded successfully");
+                } else {
+
+                    Log.i("APPINFO", "Image upload fail");
+                }
+            }
+        });
+
 
         user.signUpInBackground(new SignUpCallback() {
             @Override
@@ -81,32 +105,33 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-        switch(v.getId()){
-            case R.id.profilePhoto:
-                Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(galleryIntent, 1);
-                break;
+        if(v.getId() == R.id.profilePhoto){
+
+            Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(i, 1);
+
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if(requestCode == 1 && resultCode == RESULT_OK && data !=null){
             Uri selectedImage = data.getData();
-//            try {
-//                Bitmap bitmapImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
-//                Log.i("APPINFO", "AA");
+            try {
+
+                bitmapImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
 //                // Displaying image
-//                ImageView profile = (ImageView) findViewById(R.id.profilePhoto);
-//                profile.setImageBitmap(bitmapImage);
-//
-//                Log.i("APPINFO", "BB");
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-            profilePhoto.setImageURI(selectedImage);
+                ImageView profile = (ImageView) findViewById(R.id.profilePhoto);
+                profile.setImageBitmap(bitmapImage);
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+
 
 
     }
