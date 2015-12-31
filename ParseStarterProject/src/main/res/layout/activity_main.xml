@@ -24,14 +24,29 @@
         android:layout_centerHorizontal="true"
         android:src="@drawable/reader" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/textView"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+=======
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/editText"
         android:layout_below="@+id/imageView"
+<<<<<<< HEAD
         android:hint="Username"
         android:layout_alignRight="@+id/imageView"
         android:layout_alignEnd="@+id/imageView"
         android:layout_alignLeft="@+id/imageView"
         android:layout_alignStart="@+id/imageView" />
+=======
+        android:layout_centerHorizontal="true"
+        android:hint="Username" />
+>>>>>>> master
+>>>>>>> 9e0a078554045942357b465de7a28da927a84303
 </RelativeLayout>
