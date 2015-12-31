@@ -15,9 +15,11 @@
     <uses-sdk
         android:minSdkVersion="9"
         android:targetSdkVersion="23" />
-
+    // Permission for internet and gallery from sd card
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <user-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name="com.parse.starter.StarterApplication"
