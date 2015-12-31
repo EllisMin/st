@@ -9,8 +9,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.parse.starter.Register"
-    tools:showIn="@layout/activity_register">
+    tools:context="com.parse.starter.Search"
+    tools:showIn="@layout/activity_search">
 
 </RelativeLayout>
-<!-- From: file:/Users/taehongmin/AndroidStudioProjects/st/ParseStarterProject/src/main/res/layout/content_register.xml -->
+<!-- From: file:/Users/taehongmin/AndroidStudioProjects/st/ParseStarterProject/src/main/res/layout/content_search.xml -->

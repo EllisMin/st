@@ -46,6 +46,8 @@ public class Register extends AppCompatActivity {
                     // Code to show search page
 
                 } else {
+                    e.printStackTrace();
+
                     Toast.makeText(getApplicationContext(), e.getMessage().substring(e.getMessage().indexOf(" ")), Toast.LENGTH_LONG).show();
                 }
             }

@@ -45,6 +45,10 @@
             android:name="com.parse.starter.Register"
             android:label="@string/title_activity_register"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name="com.parse.starter.Search"
+            android:label="@string/title_activity_search"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>
