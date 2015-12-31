@@ -15,8 +15,4 @@
           android:orderInCategory="100"
           app:showAsAction="never"/>
 </menu>
-<<<<<<< HEAD
-<!-- From: file:/Users/taehongmin/AndroidStudioProjects/stugether/ParseStarterProject/src/main/res/menu/menu_main.xml -->
-=======
-<!-- From: file:/C:/Users/Junwoo/Desktop/stugether/ParseStarterProject/src/main/res/menu/menu_main.xml -->
->>>>>>> master
+<!-- From: file:/Users/taehongmin/AndroidStudioProjects/st/ParseStarterProject/src/main/res/menu/menu_main.xml -->
