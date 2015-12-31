@@ -58,18 +58,21 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
         user.put("photo", file);
 
-        user.saveInBackground(new SaveCallback() {
+
+
+        file.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    Log.i("APPINFO", "Image uploaded successfully");
-                } else {
 
+                    Log.i("APPINFO", "Image uploaded successfully");
+
+                } else {
+                    e.printStackTrace();
                     Log.i("APPINFO", "Image upload fail");
                 }
             }
         });
-
 
         user.signUpInBackground(new SignUpCallback() {
             @Override
@@ -78,10 +81,9 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                 if (e == null) {
                     Log.i("AppInfo", "Signup Successful");
                     // Code to show search page
-
+                    Intent i = new Intent(getApplicationContext(), Search.class);
+                    startActivity(i);
                 } else {
-                    e.printStackTrace();
-
                     Toast.makeText(getApplicationContext(), e.getMessage().substring(e.getMessage().indexOf(" ")), Toast.LENGTH_LONG).show();
                 }
             }
