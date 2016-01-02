@@ -9,7 +9,14 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import java.lang.reflect.Array;
+import java.util.List;
 
 public class Search extends AppCompatActivity {
 
@@ -27,6 +34,45 @@ public class Search extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+
+        Log.i("AppInfo","AA");
+        // To add 999 size String for course number into Course query
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Course");
+
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                Log.i("AppInfo", "BB");
+
+                Log.i("AppInfo","CC");
+                String[] courseNum = new String[999];
+                for(int i = 1; i < 1000; i++){
+                    if(i < 10) {
+                        courseNum[i - 1] = "00" + i;
+                    }
+                    else if(i < 100){
+                        courseNum[i-1]= "0" + i;
+                    }
+                    else{
+                        courseNum[i-1] = String.valueOf(i);
+                    }
+                }
+                Log.i("AppInfo", ""+courseNum[0].toString() + " " + objects.get(0).get("objectId"));
+
+
+                for(ParseObject obj: objects){
+
+                    Log.i("AppInfo", "array is inserted");
+                    obj.put("courseNum",courseNum);
+
+                }
+
+
+
+            }
+        });
+
+
 
     }
 
