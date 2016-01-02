@@ -38,6 +38,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
     EditText passwordField;
     ImageView profilePhoto;
     ParseFile file = null;
+    Boolean imageSelected = false;
 
     // When hit back button
     public void back_reg(View view){
@@ -49,13 +50,20 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
     // When hit signup button
     public void signupBtn(View view){
 
-        // Storing image in byteArray
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmapImage.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-        byte[] byteArray = stream.toByteArray();
-
-        file = new ParseFile(String.valueOf(usernameField.getText()) + ".jpeg", byteArray);
-
+        if(imageSelected) {
+            // Storing image in byteArray
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bitmapImage.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
+            file = new ParseFile(String.valueOf(usernameField.getText()) + ".jpeg", byteArray);
+        } else { // When the user does not select an image
+            profilePhoto.buildDrawingCache();
+            Bitmap bm = profilePhoto.getDrawingCache();
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bm.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
+            file = new ParseFile(String.valueOf(usernameField.getText()) + "_default.jpeg", byteArray);
+        }
 
         ParseUser user = new ParseUser();
         user.setUsername(String.valueOf(usernameField.getText()));
@@ -131,7 +139,8 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                 bitmapImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
                 // Displaying image
                 ImageView profile = (ImageView) findViewById(R.id.profilePhoto);
-                profile.setImageBitmap(bitmapImage);
+                profile.setImageBitmap(RoundedImageView.getCroppedBitmap(bitmapImage, 440));
+                imageSelected = true;
 
 
             } catch (IOException e) {
