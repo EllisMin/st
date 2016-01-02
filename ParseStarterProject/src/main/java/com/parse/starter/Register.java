@@ -15,15 +15,20 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 public class Register extends AppCompatActivity implements View.OnClickListener {
 
@@ -32,6 +37,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
     EditText emailField;
     EditText passwordField;
     ImageView profilePhoto;
+    ParseFile file = null;
 
     // When hit back button
     public void back_reg(View view){
@@ -43,54 +49,53 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
     // When hit signup button
     public void signupBtn(View view){
 
+        // Storing image in byteArray
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmapImage.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+
+        file = new ParseFile(String.valueOf(usernameField.getText()) + ".jpeg", byteArray);
+
+
         ParseUser user = new ParseUser();
-        // Creating new user based on fields
         user.setUsername(String.valueOf(usernameField.getText()));
         user.setEmail(String.valueOf(emailField.getText()));
         user.setPassword(String.valueOf(passwordField.getText()));
 
-        // Storing image in byteArray
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        byte[] byteArray = stream.toByteArray();
-
-        ParseFile file = new ParseFile("profile.png", byteArray);
-
-        user.put("photo", file);
-
-
-
-        file.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e == null) {
-
-                    Log.i("APPINFO", "Image uploaded successfully");
-
-                } else {
-                    e.printStackTrace();
-                    Log.i("APPINFO", "Image upload fail");
-                }
-            }
-        });
-
         user.signUpInBackground(new SignUpCallback() {
-            @Override
-            public void done(ParseException e) {
+                                    @Override
+                                    public void done(ParseException e) {
 
-                if (e == null) {
-                    Log.i("AppInfo", "Signup Successful");
-                    // Code to show search page
-                    Intent i = new Intent(getApplicationContext(), Search.class);
-                    startActivity(i);
-                } else {
-                    Toast.makeText(getApplicationContext(), e.getMessage().substring(e.getMessage().indexOf(" ")), Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-    }
+                                        if (e == null) {
+                                            Log.i("AppInfo", "Signup Successful");
+                                            //Adding the image in
+                                            Log.i("APPINFO", "" + ParseUser.getCurrentUser().getUsername() + " now has file" + file.getName());
+                                            ParseUser.getCurrentUser().put("photo", file);
+                                            ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
+                                                @Override
+                                                public void done(ParseException e) {
+                                                    if (e == null) {
+                                                        Toast.makeText(getApplication().getBaseContext(), "successfully", Toast.LENGTH_LONG).show();
 
-    @Override
+                                                    } else {
+                                                        Toast.makeText(getApplication().getBaseContext(), "error", Toast.LENGTH_LONG).show();
+                                                    }
+                                                }
+                                            });
+                                            // Code to show search page
+                                            Intent i = new Intent(getApplicationContext(), Search.class);
+                                            startActivity(i);
+
+                                        } else {
+                                            Toast.makeText(getApplicationContext(), e.getMessage().substring(e.getMessage().indexOf(" ")), Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                }
+
+        );
+        }
+
+        @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
@@ -124,7 +129,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
             try {
 
                 bitmapImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
-//                // Displaying image
+                // Displaying image
                 ImageView profile = (ImageView) findViewById(R.id.profilePhoto);
                 profile.setImageBitmap(bitmapImage);
 
