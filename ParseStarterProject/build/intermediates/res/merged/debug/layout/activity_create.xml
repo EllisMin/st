@@ -1,0 +1,55 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#f0e5da">
+
+<LinearLayout
+    android:id="@+id/buttonBar"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    style="@android:style/ButtonBar"
+    android:gravity="center"
+    android:background="#fff56770"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Button
+        android:id="@+id/searchBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Search"
+        android:background="#f56770"
+        android:textColor="#ffffff"
+        android:onClick="searchBtn" />
+
+    <Button android:id="@+id/createBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="#f56770"
+        android:text="Create"
+        android:textColor="#ffffff"/>
+
+    <Button
+        android:id="@+id/myGroupBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="#f56770"
+        android:text="My
+Group"
+        android:textColor="#ffffff"/>
+
+    <Button android:id="@+id/settingBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="#f56770"
+        android:text="Setting"
+        android:textColor="#ffffff"
+        android:onClick="settingBtn" />
+</LinearLayout>
+
+    </RelativeLayout><!-- From: file:/Users/taehongmin/AndroidStudioProjects/st/ParseStarterProject/src/main/res/layout/activity_create.xml -->

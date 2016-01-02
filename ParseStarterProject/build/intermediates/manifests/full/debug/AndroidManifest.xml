@@ -50,6 +50,18 @@
             android:name="com.parse.starter.Search"
             android:label="@string/title_activity_search"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name="com.parse.starter.Create"
+            android:label="@string/title_activity_create"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="com.parse.starter.MyGroup"
+            android:label="@string/title_activity_my_group"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="com.parse.starter.Setting"
+            android:label="@string/title_activity_setting"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

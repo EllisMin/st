@@ -4,21 +4,6 @@
     android:layout_height="fill_parent"
     android:background="#f0e5da">
 
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/txtSearch"
-        android:hint="Course"
-        />
-
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/listview"
-        android:layout_below="@+id/txtSearch"
-        android:layout_centerHorizontal="true" />
-
     <LinearLayout
         android:id="@+id/buttonBar"
         android:layout_width="fill_parent"
@@ -26,7 +11,8 @@
         android:layout_alignParentBottom="true"
         style="@android:style/ButtonBar"
         android:gravity="center"
-        android:background="#fff56770">
+        android:background="#fff56770"
+        xmlns:android="http://schemas.android.com/apk/res/android">
 
         <Button
             android:id="@+id/searchBtn"
@@ -44,8 +30,7 @@
             android:layout_weight="1"
             android:background="#f56770"
             android:text="Create"
-            android:textColor="#ffffff"
-            android:onClick="createBtn" />
+            android:textColor="#ffffff"/>
 
         <Button
             android:id="@+id/myGroupBtn"
@@ -55,9 +40,7 @@
             android:background="#f56770"
             android:text="My
 Group"
-            android:textColor="#ffffff"
-            android:onClick="myGroupBtn"
-            android:nestedScrollingEnabled="true" />
+            android:textColor="#ffffff"/>
 
         <Button android:id="@+id/settingBtn"
             android:layout_width="wrap_content"
@@ -65,11 +48,7 @@ Group"
             android:layout_weight="1"
             android:background="#f56770"
             android:text="Setting"
-            android:textColor="#bfbfbf"
-            android:onClick="settingBtn" />
+            android:textColor="#ffffff"/>
     </LinearLayout>
 
-
-
-
-</RelativeLayout>
+</RelativeLayout><!-- From: file:/Users/taehongmin/AndroidStudioProjects/st/ParseStarterProject/src/main/res/layout/activity_my_group.xml -->
