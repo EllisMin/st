@@ -1,5 +1,6 @@
 package com.parse.starter;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -16,11 +17,49 @@ public class MyGroup extends AppCompatActivity {
     Button myGroupBtn;
     Button settingBtn;
 
+    // When search button is tapped
+    public void searchBtn(View view){
+        Intent i = new Intent(getApplicationContext(), Search.class);
+        // Removes animation
+        i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(i);
+    }
+
+    // when Create button is tapped
+    public void createBtn(View view){
+        Intent i = new Intent(getApplicationContext(), Create.class);
+        // Removes animation
+        i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(i);
+    }
+    // when Setting button is tapped
+    public void settingBtn(View view){
+        Intent i = new Intent(getApplicationContext(), Setting.class);
+        // Removes animation
+        i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(i);
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_group);
 
+
+        // Making Links to Buttons on Create
+        createBtn = (Button) findViewById(R.id.createBtn);
+        searchBtn = (Button) findViewById(R.id.searchBtn);
+        myGroupBtn = (Button) findViewById(R.id.myGroupBtn);
+        settingBtn = (Button) findViewById(R.id.settingBtn);
+
+
+
+        //Chaning the button colors
+        searchBtn.setTextColor(0xFFBFBFBF);
+        createBtn.setTextColor(0xFFBFBFBF);
+        myGroupBtn.setTextColor(0xFFFFFFFF);
+        settingBtn.setTextColor(0xFFBFBFBF);
 
     }
 

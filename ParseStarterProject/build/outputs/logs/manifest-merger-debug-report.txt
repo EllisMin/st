@@ -29,6 +29,8 @@ application
 ADDED from C:\Users\Junwoo\Desktop\st\ParseStarterProject\src\main\AndroidManifest.xml:16:5-58:19
 MERGED from [com.android.support:appcompat-v7:22.2.1] C:\Users\Junwoo\Desktop\st\ParseStarterProject\build\intermediates\exploded-aar\com.android.support\appcompat-v7\22.2.1\AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:support-v4:22.2.1] C:\Users\Junwoo\Desktop\st\ParseStarterProject\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.1\AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:appcompat-v7:22.2.1] C:\Users\Junwoo\Desktop\st\ParseStarterProject\build\intermediates\exploded-aar\com.android.support\appcompat-v7\22.2.1\AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:support-v4:22.2.1] C:\Users\Junwoo\Desktop\st\ParseStarterProject\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.1\AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:design:22.2.1] C:\Users\Junwoo\Desktop\st\ParseStarterProject\build\intermediates\exploded-aar\com.android.support\design\22.2.1\AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:appcompat-v7:22.2.1] C:\Users\Junwoo\Desktop\st\ParseStarterProject\build\intermediates\exploded-aar\com.android.support\appcompat-v7\22.2.1\AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:support-v4:22.2.1] C:\Users\Junwoo\Desktop\st\ParseStarterProject\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.1\AndroidManifest.xml:22:5-20
@@ -113,6 +115,8 @@ ADDED from C:\Users\Junwoo\Desktop\st\ParseStarterProject\src\main\AndroidManife
 		ADDED from C:\Users\Junwoo\Desktop\st\ParseStarterProject\src\main\AndroidManifest.xml:55:13-36
 uses-sdk
 INJECTED from C:\Users\Junwoo\Desktop\st\ParseStarterProject\src\main\AndroidManifest.xml reason: use-sdk injection requested
+MERGED from [com.android.support:appcompat-v7:22.2.1] C:\Users\Junwoo\Desktop\st\ParseStarterProject\build\intermediates\exploded-aar\com.android.support\appcompat-v7\22.2.1\AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:support-v4:22.2.1] C:\Users\Junwoo\Desktop\st\ParseStarterProject\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.1\AndroidManifest.xml:20:5-43
 MERGED from [com.android.support:appcompat-v7:22.2.1] C:\Users\Junwoo\Desktop\st\ParseStarterProject\build\intermediates\exploded-aar\com.android.support\appcompat-v7\22.2.1\AndroidManifest.xml:20:5-43
 MERGED from [com.android.support:support-v4:22.2.1] C:\Users\Junwoo\Desktop\st\ParseStarterProject\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.1\AndroidManifest.xml:20:5-43
 MERGED from [com.android.support:design:22.2.1] C:\Users\Junwoo\Desktop\st\ParseStarterProject\build\intermediates\exploded-aar\com.android.support\design\22.2.1\AndroidManifest.xml:20:5-43

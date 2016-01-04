@@ -54,7 +54,7 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemClick
 
 
 
-    // when CREAT button is tapped
+    // when Create button is tapped
     public void createBtn(View view){
         Intent i = new Intent(getApplicationContext(), Create.class);
         // Removes animation
@@ -175,6 +175,8 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemClick
         courseListView.setAdapter(courseAdapter);
         courseListView.setOnItemClickListener(this);
 
+
+//        copiedAdapter.notifyDataSetChanged();
 
     }
 
