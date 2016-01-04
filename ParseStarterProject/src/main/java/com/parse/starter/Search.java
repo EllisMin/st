@@ -61,6 +61,13 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemClick
         i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivity(i);
     }
+    // When myGroup is tapped
+    public void myGroupBtn(View view){
+        Intent i = new Intent(getApplicationContext(), MyGroup.class);
+        // Removes animation
+        i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(i);
+    }
     // when Setting button is tapped
     public void settingBtn(View view){
         Intent i = new Intent(getApplicationContext(), Setting.class);

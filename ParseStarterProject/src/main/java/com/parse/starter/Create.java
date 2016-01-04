@@ -62,8 +62,8 @@ public class Create extends FragmentActivity {
             obj.saveInBackground();
 
             Toast.makeText(getApplicationContext(), "Successful!", Toast.LENGTH_SHORT).show();
-            //        Intent i = new Intent(getApplicationContext(), MyGroup.class);
-            //        startActivity(i);
+                    Intent i = new Intent(getApplicationContext(), MyGroup.class);
+                    startActivity(i);
 
         }
     }
