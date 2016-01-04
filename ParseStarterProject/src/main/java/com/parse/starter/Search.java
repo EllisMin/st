@@ -40,7 +40,7 @@ public class Search extends AppCompatActivity {
     ListView listView;
     EditText editText;
 
-    // when CREAT button is tapped
+    // when Create button is tapped
     public void createBtn(View view){
         Intent i = new Intent(getApplicationContext(), Create.class);
         // Removes animation
@@ -95,7 +95,7 @@ public class Search extends AppCompatActivity {
             }
         });
         // Alphabetical order ?? working correctly? TODO
-
+        Collections.sort(listItems);
 
         editText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -135,15 +135,15 @@ public class Search extends AppCompatActivity {
 
 
         for (Iterator<String> iterator = copiedItems.iterator(); iterator.hasNext(); ) {
-            String value = iterator.next().toLowerCase();
-            if(!value.contains(textToSearch.toLowerCase())){
+            String value = iterator.next();
+            if(!value.contains(textToSearch)){
                 iterator.remove();
             }
         }
-        Collections.sort(copiedItems);
         copiedAdapter = new ArrayAdapter<String>(this, R.layout.list_copieditems, R.id.txtcopiedItems, copiedItems);
         listView.setAdapter(copiedAdapter);
 
+//        copiedAdapter.notifyDataSetChanged();
 
     }
 

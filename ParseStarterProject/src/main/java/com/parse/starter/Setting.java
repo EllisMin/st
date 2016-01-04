@@ -19,7 +19,7 @@ public class Setting extends AppCompatActivity {
     Button myGroupBtn;
     Button settingBtn;
 
-    // when CREAT button is tapped
+    // when Search button is tapped
     public void searchBtn(View view){
         Intent i = new Intent(getApplicationContext(), Search.class);
         // Removes animation
@@ -27,7 +27,15 @@ public class Setting extends AppCompatActivity {
         startActivity(i);
     }
 
-    // when CREAT button is tapped
+    // When myGroup button is tapped
+    public void myGroupBtn(View view){
+        Intent i = new Intent(getApplicationContext(), MyGroup.class);
+        // Removes animation
+        i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(i);
+    }
+
+    // when Create button is tapped
     public void createBtn(View view){
         Intent i = new Intent(getApplicationContext(), Create.class);
         // Removes animation
@@ -53,6 +61,13 @@ public class Setting extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
+
+        // Making Links to Buttons on Create
+        createBtn = (Button) findViewById(R.id.createBtn);
+        searchBtn = (Button) findViewById(R.id.searchBtn);
+        myGroupBtn = (Button) findViewById(R.id.myGroupBtn);
+        settingBtn = (Button) findViewById(R.id.settingBtn);
+
 
 
         //Chaning the button colors

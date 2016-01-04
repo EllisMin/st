@@ -66,10 +66,11 @@ Group"
             android:background="#f56770"
             android:text="Setting"
             android:textColor="#bfbfbf"
-            android:onClick="settingBtn" />
+            android:onClick="settingBtn"
+            />
     </LinearLayout>
 
 
 
 
-</RelativeLayout><!-- From: file:/C:/Users/Junwoo/Desktop/st/ParseStarterProject/src/main/res/layout/activity_search.xml -->
+</RelativeLayout><!-- From: file:/Users/taehongmin/AndroidStudioProjects/st/ParseStarterProject/src/main/res/layout/activity_search.xml -->

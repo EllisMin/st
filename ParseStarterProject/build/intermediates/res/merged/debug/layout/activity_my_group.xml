@@ -30,7 +30,9 @@
             android:layout_weight="1"
             android:background="#f56770"
             android:text="Create"
-            android:textColor="#ffffff"/>
+            android:textColor="#ffffff"
+            android:onClick="createBtn"
+            />
 
         <Button
             android:id="@+id/myGroupBtn"
@@ -48,7 +50,9 @@ Group"
             android:layout_weight="1"
             android:background="#f56770"
             android:text="Setting"
-            android:textColor="#ffffff"/>
+            android:textColor="#ffffff"
+            android:onClick="settingBtn"
+            />
     </LinearLayout>
 
-</RelativeLayout><!-- From: file:/C:/Users/Junwoo/Desktop/st/ParseStarterProject/src/main/res/layout/activity_my_group.xml -->
+</RelativeLayout><!-- From: file:/Users/taehongmin/AndroidStudioProjects/st/ParseStarterProject/src/main/res/layout/activity_my_group.xml -->

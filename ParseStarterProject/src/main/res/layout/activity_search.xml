@@ -66,7 +66,8 @@ Group"
             android:background="#f56770"
             android:text="Setting"
             android:textColor="#bfbfbf"
-            android:onClick="settingBtn" />
+            android:onClick="settingBtn"
+            />
     </LinearLayout>
 
 
