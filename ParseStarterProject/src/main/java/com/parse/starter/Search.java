@@ -12,6 +12,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,21 +25,34 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-public class Search extends AppCompatActivity {
+
+public class Search extends AppCompatActivity implements AdapterView.OnItemClickListener{
     Button createBtn;
     Button searchBtn;
     Button myGroupBtn;
     Button settingBtn;
 
-    ArrayList<String> listItems;
-    ArrayAdapter<String> adapter;
-    ArrayAdapter<String> copiedAdapter;
-    ListView listView;
-    EditText editText;
+    List<String> courseCopiedItems;
+    List<String> numCopiedItems;
+
+    // Course search
+    ArrayList<String> courseItems;
+    ArrayAdapter<String> courseAdapter;
+    ListView courseListView;
+    EditText courseEditText;
+
+    // Course Number Search
+    ArrayList<String> listNums;
+    ArrayAdapter<String> numberAdapter;
+    ListView numListView;
+    EditText numEditText;
+
+
 
     // when CREAT button is tapped
     public void createBtn(View view){
@@ -60,7 +74,6 @@ public class Search extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-
         // Making Links to Buttons on Create
         createBtn = (Button) findViewById(R.id.createBtn);
         searchBtn = (Button) findViewById(R.id.searchBtn);
@@ -74,9 +87,10 @@ public class Search extends AppCompatActivity {
         myGroupBtn.setTextColor(0xFFBFBFBF);
         settingBtn.setTextColor(0xFFBFBFBF);
 
-        listView= (ListView)findViewById(R.id.listview);
-        editText = (EditText)findViewById(R.id.txtSearch);
-        listItems = new ArrayList<>();
+        // Get Course List from parse
+        courseListView= (ListView)findViewById(R.id.courseListView);
+        courseEditText = (EditText)findViewById(R.id.courseEditText);
+        courseItems = new ArrayList<>();
 
         ParseQuery<ParseObject> courseQuery = ParseQuery.getQuery("Course");
         courseQuery.findInBackground(new FindCallback<ParseObject>() {
@@ -84,7 +98,7 @@ public class Search extends AppCompatActivity {
             public void done(List<ParseObject> objects, ParseException e) {
                 if (e == null) {
                     for (ParseObject course : objects) {
-                        listItems.add(String.valueOf(course.get("courseName")));
+                        courseItems.add(String.valueOf(course.get("courseName")));
                     }
                     Log.i("Appinfo", "A");
                 } else {
@@ -94,25 +108,37 @@ public class Search extends AppCompatActivity {
 
             }
         });
-        // Alphabetical order ?? working correctly? TODO
 
+        // Initialize Number parts
+        numListView = (ListView) findViewById(R.id.numListView);
+        numEditText = (EditText) findViewById(R.id.numEditText);
+        listNums = new ArrayList<>();
+        numListEnable(false);
 
-        editText.addTextChangedListener(new TextWatcher() {
+        // Course List Text Change
+        courseEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(s.toString().equals("")){
-                    // reset listview
                     // List invisible
+                    courseListView.setVisibility(View.GONE);
+                    numEditText.setText("");
+                    numEditText.setHint("Select Subject First");
+                    numListEnable(false);
+
 
                 }else{
                     // perform search
                     // List visible
-                    searchItem(s.toString());
+                    courseListView.setVisibility(View.VISIBLE);
+                    numEditText.setText("");
+                    numEditText.setHint("Select Subject First");
+                    numListEnable(false);
+                    searchCourseItem(s.toString());
 
                 }
             }
@@ -124,37 +150,142 @@ public class Search extends AppCompatActivity {
         });
 
 
+
+
+
     }
 
-    public void searchItem(String textToSearch){
-        List<String> copiedItems = new ArrayList<String>();
-        for(String item: listItems){
-            copiedItems.add(item);
+    // Search Course List
+    public void searchCourseItem(String textToSearch){
+        courseCopiedItems = new ArrayList<String>();
+        for(String item: courseItems){
+            courseCopiedItems.add(item);
         }
 
 
 
-        for (Iterator<String> iterator = copiedItems.iterator(); iterator.hasNext(); ) {
+        for (Iterator<String> iterator = courseCopiedItems.iterator(); iterator.hasNext(); ) {
             String value = iterator.next().toLowerCase();
             if(!value.contains(textToSearch.toLowerCase())){
                 iterator.remove();
             }
         }
-        Collections.sort(copiedItems);
-        copiedAdapter = new ArrayAdapter<String>(this, R.layout.list_copieditems, R.id.txtcopiedItems, copiedItems);
-        listView.setAdapter(copiedAdapter);
+        Collections.sort(courseCopiedItems);
+        courseAdapter = new ArrayAdapter<String>(this, R.layout.list_copieditems, R.id.txtcopiedItems, courseCopiedItems);
+        courseListView.setAdapter(courseAdapter);
+        courseListView.setOnItemClickListener(this);
 
 
     }
 
+    // Search Number List
+    public void searchNumItem(String textToSearch){
+        // Copy number list to temporary list
+        numCopiedItems = new ArrayList<String>();
+        for(String item: listNums){
+            numCopiedItems.add(item);
+        }
 
-    public void initList(){
-        Log.i("Appinfo", "C");
-        adapter = new ArrayAdapter<String>(this, R.layout.list_list, R.id.txtitem, listItems);
-        listView.setAdapter(adapter);
+        for (Iterator<String> iterator = numCopiedItems.iterator(); iterator.hasNext(); ) {
+            String value = iterator.next();
+            if(!value.contains(textToSearch)){
+                iterator.remove();
+            }
+        }
+        Collections.sort(numCopiedItems);
+        numberAdapter = new ArrayAdapter<String>(this, R.layout.list_list, R.id.txtitem, numCopiedItems);
+        numListView.setAdapter(numberAdapter);
+        numListView.setOnItemClickListener(this);
+
+
     }
 
+    // For courses
+    @Override
+    public void onItemClick(AdapterView<?> adapterView,View v, int i, long l) {
 
+        if(adapterView.getId() == R.id.courseListView){
+            String selected = courseCopiedItems.get(i);
+            courseEditText.setText(selected);
+            courseListView.setVisibility(View.GONE);
+
+            numEditText.setHint("Coure Number");
+            numListEnable(true);
+                // Get Course number List from parse AFTER Course is selected
+
+
+                ParseQuery<ParseObject> numQuery = ParseQuery.getQuery("Course");
+
+                numQuery.whereEqualTo("courseName", selected);
+                numQuery.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> objects, ParseException e) {
+                        if (e == null) {
+
+                            ParseObject course = objects.get(0);
+                            listNums = (ArrayList<String>) course.get("courseNum");
+
+                        } else {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
+
+                // Number List Text Change
+                numEditText.addTextChangedListener(new TextWatcher() {
+
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        if (s.toString().equals("")) {
+                            // reset listview
+                            // List invisible
+                            numListView.setVisibility(View.GONE);
+
+                        } else {
+                            // perform search
+                            // List visible
+                            numListView.setVisibility(View.VISIBLE);
+                            searchNumItem(s.toString());
+
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+
+                    }
+                });
+
+
+
+
+
+
+
+
+        }else if (adapterView.getId() == R.id.numListView){
+            String selected = numCopiedItems.get(i);
+            numEditText.setText(selected);
+            numListView.setVisibility(View.GONE);
+        }
+
+
+
+    }
+
+    public void numListEnable(boolean sw){
+
+        numEditText.setEnabled(sw);
+        numEditText.setClickable(sw);
+        numEditText.setFocusableInTouchMode(sw);
+        numEditText.setFocusable(sw);
+    }
 
 
 }
