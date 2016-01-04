@@ -71,8 +71,8 @@ public class SearchResult extends AppCompatActivity {
         myGroupBtn.setTextColor(0xFFBFBFBF);
         settingBtn.setTextColor(0xFFBFBFBF);
 
-        listView= (ListView)findViewById(R.id.listview);
-        editText = (EditText)findViewById(R.id.txtSearch);
+        listView= (ListView)findViewById(R.id.courseListView);
+        editText = (EditText)findViewById(R.id.courseEditText);
         listItems = new ArrayList<>();
         ParseQuery<ParseObject> roomQuery = ParseQuery.getQuery("Room");
         roomQuery.findInBackground(new FindCallback<ParseObject>() {

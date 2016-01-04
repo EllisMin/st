@@ -5,19 +5,56 @@
     android:background="#f0e5da">
 
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/txtSearch"
-        android:hint="Course"
-        />
-
-    <ListView
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/listview"
-        android:layout_below="@+id/txtSearch"
-        android:layout_centerHorizontal="true" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Find Your Study Group"
+        android:id="@+id/textView2"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp" />
+
+    <EditText
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/courseEditText"
+        android:hint="Course"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="180dp" />
+
+    <ListView
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/courseListView"
+        android:layout_below="@+id/courseEditText"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:footerDividersEnabled="false"
+        android:drawSelectorOnTop="false" />
+
+    <EditText
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/numEditText"
+        android:hint="Select Subject First"
+        android:layout_centerVertical="true"
+        android:layout_alignLeft="@+id/courseEditText"
+        android:layout_alignStart="@+id/courseEditText" />
+
+    <ListView
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/numListView"
+        android:layout_below="@+id/numEditText"
+        android:layout_alignLeft="@+id/numEditText"
+        android:layout_alignStart="@+id/numEditText" />
+
+
+
 
     <LinearLayout
         android:id="@+id/buttonBar"
@@ -66,7 +103,8 @@ Group"
             android:background="#f56770"
             android:text="Setting"
             android:textColor="#bfbfbf"
-            android:onClick="settingBtn" />
+            android:onClick="settingBtn"
+            />
     </LinearLayout>
 
 
