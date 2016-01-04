@@ -23,9 +23,9 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 public class Search extends AppCompatActivity {
@@ -34,15 +34,11 @@ public class Search extends AppCompatActivity {
     Button myGroupBtn;
     Button settingBtn;
 
-
-    String[] courses;
     ArrayList<String> listItems;
     ArrayAdapter<String> adapter;
+    ArrayAdapter<String> copiedAdapter;
     ListView listView;
     EditText editText;
-
-
-
 
     // when CREAT button is tapped
     public void createBtn(View view){
@@ -81,22 +77,26 @@ public class Search extends AppCompatActivity {
         listView= (ListView)findViewById(R.id.listview);
         editText = (EditText)findViewById(R.id.txtSearch);
         listItems = new ArrayList<>();
+
         ParseQuery<ParseObject> courseQuery = ParseQuery.getQuery("Course");
         courseQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
-                if(e==null){
-                    for(ParseObject course: objects)
+                if (e == null) {
+                    for (ParseObject course : objects) {
                         listItems.add(String.valueOf(course.get("courseName")));
-                    Log.i("Appinfo","A");
-                }else{
-                    Log.i("Appinfo","B");
+                    }
+                    Log.i("Appinfo", "A");
+                } else {
+                    Log.i("Appinfo", "B");
                     e.printStackTrace();
                 }
 
             }
         });
-        initList();
+        // Alphabetical order ?? working correctly? TODO
+        Collections.sort(listItems);
+
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -107,7 +107,6 @@ public class Search extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(s.toString().equals("")){
                     // reset listview
-//                    initList();
                     // List invisible
 
                 }else{
@@ -128,26 +127,31 @@ public class Search extends AppCompatActivity {
     }
 
     public void searchItem(String textToSearch){
-        for(String item: courses){
-            if(!item.contains(textToSearch)){
-                listItems.remove(item);
+        List<String> copiedItems = new ArrayList<String>();
+        for(String item: listItems){
+            copiedItems.add(item);
+        }
+
+
+
+        for (Iterator<String> iterator = copiedItems.iterator(); iterator.hasNext(); ) {
+            String value = iterator.next();
+            if(!value.contains(textToSearch)){
+                iterator.remove();
             }
         }
-        adapter.notifyDataSetChanged();
+        copiedAdapter = new ArrayAdapter<String>(this, R.layout.list_copieditems, R.id.txtcopiedItems, copiedItems);
+        listView.setAdapter(copiedAdapter);
+
+//        copiedAdapter.notifyDataSetChanged();
 
     }
 
 
     public void initList(){
-
         Log.i("Appinfo", "C");
-
-
-
         adapter = new ArrayAdapter<String>(this, R.layout.list_list, R.id.txtitem, listItems);
         listView.setAdapter(adapter);
-
-
     }
 
 
