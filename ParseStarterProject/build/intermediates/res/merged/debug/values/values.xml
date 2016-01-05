@@ -298,6 +298,7 @@
     <string name="title_activity_my_group">MyGroup</string>
     <string name="title_activity_register">Register</string>
     <string name="title_activity_search">Search</string>
+    <string name="title_activity_search_result">SearchResult</string>
     <string name="title_activity_setting">Setting</string>
     <!-- From: file:/C:/Users/Junwoo/Desktop/st/ParseStarterProject/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.1/res/values/values.xml -->
     <eat-comment/>

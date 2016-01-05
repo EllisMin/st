@@ -9,6 +9,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.Layout;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -36,6 +37,7 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemClick
     Button searchBtn;
     Button myGroupBtn;
     Button settingBtn;
+    Button grpSearchBtn;
 
     List<String> courseCopiedItems;
     List<String> numCopiedItems;
@@ -52,6 +54,15 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemClick
     ListView numListView;
     EditText numEditText;
 
+    // When group Search button is tapped
+    public void grpSearchBtn(View view){
+        Intent i = new Intent(getApplicationContext(), SearchResult.class);
+        i.putExtra("courseName", courseEditText.getText().toString());
+        i.putExtra("courseNumber", numEditText.getText().toString());
+        // Removes animation
+        i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(i);
+    }
 
 
     // when Create button is tapped
@@ -87,6 +98,11 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemClick
         myGroupBtn = (Button) findViewById(R.id.myGroupBtn);
         settingBtn = (Button) findViewById(R.id.settingBtn);
 
+        // Making Links to group search button
+        grpSearchBtn = (Button) findViewById(R.id.grpSearchbtn);
+
+
+
 
         //Chaning the button colors
         searchBtn.setTextColor(0xFFFFFFFF);
@@ -115,6 +131,8 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemClick
 
             }
         });
+        courseListView.setVisibility(View.INVISIBLE);
+
 
         // Initialize Number parts
         numListView = (ListView) findViewById(R.id.numListView);
@@ -145,6 +163,7 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemClick
                     numEditText.setText("");
                     numEditText.setHint("Select Subject First");
                     numListEnable(false);
+                    courseListView.bringToFront();
                     searchCourseItem(s.toString());
 
                 }
@@ -155,7 +174,7 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemClick
 
             }
         });
-
+        numListView.setVisibility(View.INVISIBLE);
 
 
 
@@ -178,6 +197,10 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemClick
             }
         }
         Collections.sort(courseCopiedItems);
+        if(courseCopiedItems.size() == 0){
+            courseCopiedItems.add("No Result");
+        }
+
         courseAdapter = new ArrayAdapter<String>(this, R.layout.list_copieditems, R.id.txtcopiedItems, courseCopiedItems);
         courseListView.setAdapter(courseAdapter);
         courseListView.setOnItemClickListener(this);
@@ -215,6 +238,11 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemClick
 
         if(adapterView.getId() == R.id.courseListView){
             String selected = courseCopiedItems.get(i);
+            if(selected.equals("No Result")){
+                courseListView.setVisibility(View.GONE);
+                courseEditText.setText("");
+                return;
+            }
             courseEditText.setText(selected);
             courseListView.setVisibility(View.GONE);
 
@@ -260,6 +288,7 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemClick
                             // perform search
                             // List visible
                             numListView.setVisibility(View.VISIBLE);
+                            numListView.bringToFront();
                             searchNumItem(s.toString());
 
                         }
