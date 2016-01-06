@@ -31,7 +31,7 @@
         android:id="@+id/courseListView"
         android:layout_below="@+id/courseEditText"
         android:layout_centerHorizontal="true"
-        android:background="#f0e5da"
+        android:background="#ffffff"
         android:layout_above="@+id/buttonBar" />
 
     <EditText
@@ -53,7 +53,7 @@
         android:layout_alignLeft="@+id/numEditText"
         android:layout_alignStart="@+id/numEditText"
         android:layout_above="@+id/buttonBar"
-        android:background="#f0e5da" />
+        android:background="#ffffff" />
 
 
     <LinearLayout

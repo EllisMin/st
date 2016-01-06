@@ -75,7 +75,9 @@ Group"
 
         android:layout_below="@+id/courseNumber"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/capacity"
+        android:layout_toStartOf="@+id/capacity" />
     <TextView
         android:layout_width="130dp"
         android:layout_height="30dp"
@@ -86,7 +88,9 @@ Group"
         android:background="#b88484"
         android:layout_below="@+id/dateTextView"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/capacity"
+        android:layout_toStartOf="@+id/capacity" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -94,10 +98,10 @@ Group"
         android:id="@+id/capacity"
         android:inputType="number"
         android:hint="Capacity (minimum: 2)"
-        android:layout_below="@+id/courseNumber"
-        android:layout_toRightOf="@+id/dateTextView"
-        android:layout_toEndOf="@+id/dateTextView"
-        android:maxLength="2" />
+        android:maxLength="2"
+        android:layout_below="@+id/category"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <EditText
         android:layout_width="300dp"
@@ -126,9 +130,32 @@ Group"
         android:layout_height="wrap_content"
         android:id="@+id/courseName"
         android:layout_below="@+id/roomTitle"
-        android:layout_alignRight="@+id/doneBtn"
-        android:layout_alignEnd="@+id/doneBtn"
-        android:hint="Course" />
+        android:hint="Course"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Spinner
+        android:id="@+id/category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown"
+        android:entries="@array/category"
+        android:layout_below="@+id/courseName"
+        android:layout_toRightOf="@+id/dateTextView"
+        android:layout_above="@+id/dateTextView"
+        android:layout_alignRight="@+id/courseName"
+        android:layout_alignEnd="@+id/courseName" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/courseList"
+        android:layout_below="@+id/courseName"
+        android:layout_alignRight="@+id/description"
+        android:layout_alignEnd="@+id/description"
+        android:layout_above="@+id/doneBtn"
+        android:background="#ffffff" />
 
     <EditText
         android:layout_width="match_parent"
@@ -139,6 +166,18 @@ Group"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:hint="Course number"
-        android:maxLength="3" />
+        android:maxLength="3"
+        android:layout_toLeftOf="@+id/capacity"
+        android:layout_toStartOf="@+id/capacity" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/numberList"
+        android:layout_below="@+id/courseNumber"
+        android:layout_alignBottom="@+id/description"
+        android:layout_toLeftOf="@+id/capacity"
+        android:layout_toStartOf="@+id/capacity"
+        android:background="#ffffff" />
 
 </RelativeLayout>

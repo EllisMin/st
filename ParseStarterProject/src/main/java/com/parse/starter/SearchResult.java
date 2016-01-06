@@ -83,7 +83,7 @@ public class SearchResult extends AppCompatActivity {
 
         ParseQuery<ParseObject> roomQuery = ParseQuery.getQuery("Room");
         roomQuery.whereEqualTo("course" , courseName);
-        //  roomQuery.whereEqualTo("number" , courseNumber);
+        roomQuery.whereEqualTo("number" , courseNumber);
 
         roomQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override

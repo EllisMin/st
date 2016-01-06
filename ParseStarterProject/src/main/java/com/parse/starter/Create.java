@@ -7,18 +7,32 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-public class Create extends FragmentActivity {
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+
+public class Create extends FragmentActivity implements AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener {
 
     Button createBtn;
     Button searchBtn;
@@ -31,6 +45,22 @@ public class Create extends FragmentActivity {
     EditText capacity;
     EditText description;
     Button doneBtn;
+    ListView courseList;
+    ListView numberList;
+    Spinner category;
+
+    String selectedCourse;
+    String selectedNumber;
+    String selectedCategory;
+
+    List<String> courseItems;
+    List<String> numberItems;
+
+    List<String> courseCopiedItems;
+    List<String> numCopiedItems;
+    ArrayAdapter<String> courseAdapter;
+    ArrayAdapter<String> numberAdapter;
+
 
     static TextView dateTextView;
     static TextView timeTextView;
@@ -48,11 +78,12 @@ public class Create extends FragmentActivity {
             return;
         }
         else {
+
             // Creating room
             ParseObject obj = new ParseObject("Room");
             obj.put("title", String.valueOf(roomTitle.getText()));
-            obj.put("course", String.valueOf(courseName.getText()));
-            obj.put("number", Integer.parseInt(String.valueOf(courseNumber.getText())));
+            obj.put("course", selectedCourse);
+            obj.put("number", selectedNumber);
             obj.put("capacity", Integer.parseInt(String.valueOf(capacity.getText())));
             obj.put("description", String.valueOf(description.getText()));
             obj.put("studyDate", String.valueOf(dateTextView.getText()));
@@ -127,13 +158,249 @@ public class Create extends FragmentActivity {
         dateTextView = (TextView) findViewById(R.id.dateTextView);
         timeTextView = (TextView) findViewById(R.id.timeTextView);
         roomTitle = (EditText) findViewById(R.id.roomTitle);
-        courseName = (EditText) findViewById(R.id.courseName);
-        courseNumber = (EditText) findViewById(R.id.courseNumber);
+
+
         capacity = (EditText) findViewById(R.id.capacity);
         description = (EditText) findViewById(R.id.description);
         doneBtn = (Button) findViewById(R.id.doneBtn);
+        category = (Spinner) findViewById(R.id.category);
 
 
+
+
+
+        category.setOnItemSelectedListener(this);
+
+
+        // For course search
+        courseName = (EditText) findViewById(R.id.courseName);
+        courseList = (ListView) findViewById(R.id.courseList);
+        courseItems = new ArrayList<String>();
+
+        ParseQuery<ParseObject> courseQuery = ParseQuery.getQuery("Course");
+        courseQuery.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (e == null) {
+                    for (ParseObject course : objects) {
+                        courseItems.add(String.valueOf(course.get("courseName")));
+                    }
+                    Log.i("Appinfo", "A");
+                } else {
+                    Log.i("Appinfo", "B");
+                    e.printStackTrace();
+                }
+
+            }
+        });
+        courseList.setVisibility(View.INVISIBLE);
+
+        //For number search
+        courseNumber = (EditText) findViewById(R.id.courseNumber);
+        numberList = (ListView) findViewById(R.id.numberList);
+        numberItems = new ArrayList<String>();
+
+        //Disable number
+        courseNumberEnable(false);
+
+        // Course List Text Change
+        courseName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.toString().equals("")){
+                    // List invisible
+                    courseList.setVisibility(View.GONE);
+                    courseNumber.setText("");
+                    courseNumber.setHint("Select Subject First");
+                    courseNumberEnable(false);
+
+
+                }else{
+                    // perform search
+                    // List visible
+                    courseList.setVisibility(View.VISIBLE);
+                    courseNumber.setText("");
+                    courseNumber.setHint("Select Subject First");
+                    courseNumberEnable(false);
+                    courseList.bringToFront();
+                    searchCourseItem(s.toString());
+
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        numberList.setVisibility(View.INVISIBLE);
+
+    }
+
+    // Search Course List
+    public void searchCourseItem(String textToSearch){
+        courseCopiedItems = new ArrayList<String>();
+        for(String item: courseItems){
+            courseCopiedItems.add(item);
+        }
+
+
+
+        for (Iterator<String> iterator = courseCopiedItems.iterator(); iterator.hasNext(); ) {
+            String value = iterator.next().toLowerCase();
+            if(!value.contains(textToSearch.toLowerCase())){
+                iterator.remove();
+            }
+        }
+        Collections.sort(courseCopiedItems);
+        if(courseCopiedItems.size() == 0){
+            courseCopiedItems.add("No Result");
+        }
+
+        courseAdapter = new ArrayAdapter<String>(this, R.layout.list_copieditems, R.id.txtcopiedItems, courseCopiedItems);
+        courseList.setAdapter(courseAdapter);
+        courseList.setOnItemClickListener(this);
+
+
+
+    }
+    // Search Number List
+    public void searchNumItem(String textToSearch){
+        // Copy number list to temporary list
+        numCopiedItems = new ArrayList<String>();
+        for(String item: numberItems){
+            numCopiedItems.add(item);
+        }
+
+        for (Iterator<String> iterator = numCopiedItems.iterator(); iterator.hasNext(); ) {
+            String value = iterator.next();
+            if(!value.contains(textToSearch)){
+                iterator.remove();
+            }
+        }
+        Collections.sort(numCopiedItems);
+        numberAdapter = new ArrayAdapter<String>(this, R.layout.list_list, R.id.txtitem, numCopiedItems);
+        numberList.setAdapter(numberAdapter);
+        numberList.setOnItemClickListener(this);
+
+
+    }
+
+    /*
+        For category
+     */
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        // An item was selected. You can retrieve the selected item using
+        // parent.getItemAtPosition(pos)
+        category.setSelection(position);
+        String selected = (String) category.getSelectedItem();
+        selectedCategory = selected;
+        Log.i("Appinfo", selected);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        // Another interface callback
+        Log.i("AppInfo", "Nothing is selected");
+    }
+
+    /*
+        To disable number list until course is selected
+     */
+    public void courseNumberEnable(boolean sw){
+
+        courseNumber.setEnabled(sw);
+        courseNumber.setClickable(sw);
+        courseNumber.setFocusableInTouchMode(sw);
+        courseNumber.setFocusable(sw);
+    }
+
+
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+        if(adapterView.getId() == R.id.courseList){
+            String selected = courseCopiedItems.get(position);
+            if(selected.equals("No Result")){
+                courseList.setVisibility(View.GONE);
+                courseName.setText("");
+                return;
+            }
+            courseName.setText(selected);
+            selectedCourse = selected;
+            courseList.setVisibility(View.GONE);
+
+            courseNumber.setHint("Course Number");
+            courseNumberEnable(true);
+            // Get Course number List from parse AFTER Course is selected
+
+
+            ParseQuery<ParseObject> numQuery = ParseQuery.getQuery("Course");
+
+            numQuery.whereEqualTo("courseName", selected);
+            numQuery.findInBackground(new FindCallback<ParseObject>() {
+                @Override
+                public void done(List<ParseObject> objects, ParseException e) {
+                    if (e == null) {
+
+                        ParseObject course = objects.get(0);
+                        numberItems = (ArrayList<String>) course.get("courseNum");
+
+                    } else {
+                        e.printStackTrace();
+                    }
+
+                }
+            });
+
+            // Number List Text Change
+            courseNumber.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    if (s.toString().equals("")) {
+                        // reset listview
+                        // List invisible
+                        numberList.setVisibility(View.GONE);
+
+                    } else {
+                        // perform search
+                        // List visible
+                        numberList.setVisibility(View.VISIBLE);
+                        numberList.bringToFront();
+                        searchNumItem(s.toString());
+
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                }
+            });
+
+
+
+
+
+
+
+
+        }else if (adapterView.getId() == R.id.numberList){
+            String selected = numCopiedItems.get(position);
+            courseNumber.setText(selected);
+            selectedNumber = selected;
+            numberList.setVisibility(View.GONE);
+        }
 
 
     }

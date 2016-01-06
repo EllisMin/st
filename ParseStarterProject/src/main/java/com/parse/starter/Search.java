@@ -206,7 +206,6 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemClick
         courseListView.setOnItemClickListener(this);
 
 
-//        copiedAdapter.notifyDataSetChanged();
 
     }
 
@@ -246,7 +245,7 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemClick
             courseEditText.setText(selected);
             courseListView.setVisibility(View.GONE);
 
-            numEditText.setHint("Coure Number");
+            numEditText.setHint("Course Number");
             numListEnable(true);
                 // Get Course number List from parse AFTER Course is selected
 
