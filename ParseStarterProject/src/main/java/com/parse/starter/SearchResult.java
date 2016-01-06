@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -40,7 +41,7 @@ public class SearchResult extends AppCompatActivity {
     List<String> listItems;
     ArrayAdapter<String> adapter;
     ListView listView;
-    EditText editText;
+    TextView textView;
     // when CREAT button is tapped
     public void createBtn(View view){
         Intent i = new Intent(getApplicationContext(), Create.class);
@@ -77,6 +78,8 @@ public class SearchResult extends AppCompatActivity {
         settingBtn.setTextColor(0xFFBFBFBF);
 
         listView= (ListView)findViewById(R.id.listView);
+        textView= (TextView)findViewById(R.id.textView2);
+        textView.setText(courseName + " " + courseNumber);
 
         listItems = new ArrayList<>();
 
@@ -94,8 +97,11 @@ public class SearchResult extends AppCompatActivity {
 
                         Log.i("Appinfo", String.valueOf(room.get("title")));
                         String stringToAdd = "";
-                        stringToAdd = stringToAdd + String.valueOf(room.get("studyDate")) + "   " +String.valueOf(room.get("title")) +
-                                "            " + String.valueOf(room.get("category")) + "    " + String.valueOf(room.get("opened"));
+                        stringToAdd = stringToAdd + String.valueOf(room.get("studyDate")) + "   " +
+                                String.valueOf(room.get("category")) + "    " + String.valueOf(room.get("opened") +"\n")
+                                + String.valueOf(room.get("title")) +
+                                "            "
+                        ;
                         listItems.add(stringToAdd);
                         Log.i("Appinfo", "A");
                     }

@@ -155,7 +155,7 @@ Group"
         android:layout_alignRight="@+id/description"
         android:layout_alignEnd="@+id/description"
         android:layout_above="@+id/doneBtn"
-        android:background="#f0e5da" />
+        android:background="#ffffff" />
 
     <EditText
         android:layout_width="match_parent"
@@ -178,6 +178,6 @@ Group"
         android:layout_alignBottom="@+id/description"
         android:layout_toLeftOf="@+id/capacity"
         android:layout_toStartOf="@+id/capacity"
-        android:background="#f0e5da" />
+        android:background="#ffffff" />
 
-</RelativeLayout><!-- From: file:/C:/Users/Junwoo/Desktop/st/ParseStarterProject/src/main/res/layout/activity_create.xml -->
+</RelativeLayout><!-- From: file:/Users/taehongmin/AndroidStudioProjects/st/ParseStarterProject/src/main/res/layout/activity_create.xml -->
