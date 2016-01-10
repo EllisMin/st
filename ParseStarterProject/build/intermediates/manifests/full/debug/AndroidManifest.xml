@@ -66,6 +66,10 @@
             android:name="com.parse.starter.SearchResult"
             android:label="@string/title_activity_search_result"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name="com.parse.starter.Room"
+            android:label="@string/title_activity_room"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

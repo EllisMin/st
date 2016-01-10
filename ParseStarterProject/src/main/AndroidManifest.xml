@@ -58,6 +58,10 @@
         <activity
             android:name=".SearchResult"
             android:label="@string/title_activity_search_result"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Room"
+            android:label="@string/title_activity_room"
             android:theme="@style/AppTheme"></activity>
     </application>
 

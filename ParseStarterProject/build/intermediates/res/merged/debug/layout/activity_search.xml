@@ -60,7 +60,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignTop="@+id/numListView"
+        android:layout_alignTop="@+id/numEditText"
         android:layout_above="@+id/buttonBar">
 
         <Button
@@ -70,7 +70,7 @@
             android:id="@+id/grpSearchbtn"
             android:layout_below="@+id/numEditText"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="90dp"
             android:onClick="grpSearchBtn"
             android:layout_marginLeft="150dp" />
     </LinearLayout>
@@ -126,4 +126,4 @@ Group"
     </LinearLayout>
 
 
-</RelativeLayout><!-- From: file:/Users/taehongmin/AndroidStudioProjects/st/ParseStarterProject/src/main/res/layout/activity_search.xml -->
+</RelativeLayout><!-- From: file:/C:/Users/Junwoo/Desktop/st/ParseStarterProject/src/main/res/layout/activity_search.xml -->

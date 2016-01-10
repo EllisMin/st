@@ -1,0 +1,203 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#f0e5da">
+
+    <LinearLayout
+        android:id="@+id/buttonBar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        style="@android:style/ButtonBar"
+        android:gravity="center"
+        android:background="#fff56770"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <Button
+            android:id="@+id/searchBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Search"
+            android:background="#f56770"
+            android:textColor="#ffffff"
+            android:onClick="searchBtn" />
+
+        <Button android:id="@+id/createBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#f56770"
+            android:text="Create"
+            android:textColor="#ffffff"/>
+
+        <Button
+            android:id="@+id/myGroupBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#f56770"
+            android:onClick="myGroupBtn"
+            android:text="My
+Group"
+            android:textColor="#ffffff"/>
+
+        <Button android:id="@+id/settingBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#f56770"
+            android:text="Setting"
+            android:textColor="#ffffff"
+            android:onClick="settingBtn" />
+    </LinearLayout>
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/roomTitle"
+        android:layout_alignParentTop="true"
+        android:hint="Room title"
+        android:layout_marginTop="50dp"
+        android:layout_toRightOf="@+id/courseName" />
+
+
+    <TextView
+        android:layout_width="130dp"
+        android:layout_height="30dp"
+        android:text="Set Date"
+        android:onClick="setDate"
+        android:id="@+id/dateTextView"
+        android:textColor="#074cee"
+        android:background="#b88484"
+        android:layout_below="@+id/courseNumber"
+
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/capacity"
+        android:layout_toStartOf="@+id/capacity" />
+    <TextView
+        android:layout_width="130dp"
+        android:layout_height="30dp"
+        android:text="Set Time"
+        android:onClick="setTime"
+        android:id="@+id/timeTextView"
+        android:textColor="#074cee"
+        android:background="#b88484"
+        android:layout_below="@+id/dateTextView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/capacity"
+        android:layout_toStartOf="@+id/capacity" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/capacity"
+        android:inputType="number"
+        android:hint="Capacity (minimum: 2)"
+        android:maxLength="2"
+        android:layout_below="@+id/category"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/description"
+        android:hint="write a short description"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/timeTextView"
+        android:layout_above="@+id/doneBtn"
+        android:layout_alignRight="@+id/capacity"
+        android:layout_alignEnd="@+id/capacity" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Join"
+        android:id="@+id/joinBtn"
+        android:onClick="joinBtn"
+        android:layout_below="@+id/description"
+        android:layout_alignRight="@+id/capacity"
+        android:layout_alignEnd="@+id/capacity" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Course"
+        android:id="@+id/courseName"
+        android:layout_below="@+id/roomTitle"
+        android:layout_toLeftOf="@+id/capacity"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Spinner
+        android:id="@+id/category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown"
+        android:entries="@array/category"
+        android:layout_toRightOf="@+id/dateTextView"
+        android:layout_toEndOf="@+id/dateTextView"
+        android:layout_below="@+id/roomTitle"
+        android:layout_above="@+id/dateTextView" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Course Number"
+        android:id="@+id/courseNumber"
+        android:layout_below="@+id/courseName"
+        android:layout_toLeftOf="@+id/capacity"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/masterPhoto"
+        android:layout_alignTop="@+id/roomTitle"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit"
+        android:id="@+id/editBtn"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignLeft="@+id/joinBtn"
+        android:layout_alignStart="@+id/joinBtn"
+        android:onClick="editBtn" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete"
+        android:id="@+id/deleteBtn"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/editBtn"
+        android:layout_alignLeft="@+id/roomTitle"
+        android:layout_alignStart="@+id/roomTitle"
+        android:onClick="deleteBtn" />
+
+
+</RelativeLayout>
+
+
+</ScrollView>
+<!-- From: file:/C:/Users/Junwoo/Desktop/st/ParseStarterProject/src/main/res/layout/activity_room.xml -->

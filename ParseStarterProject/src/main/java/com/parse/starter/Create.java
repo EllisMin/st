@@ -61,11 +61,14 @@ public class Create extends FragmentActivity implements AdapterView.OnItemSelect
     ArrayAdapter<String> courseAdapter;
     ArrayAdapter<String> numberAdapter;
 
+    List<String> members;
+
 
     static TextView dateTextView;
     static TextView timeTextView;
 
     // When hit done button
+    //TODO specification
     public void doneBtn(View view) {
         Log.i("APPINFO", String.valueOf(roomTitle.getText()));
         Log.i("APPINFO", String.valueOf(dateTextView.getText()));
@@ -90,6 +93,10 @@ public class Create extends FragmentActivity implements AdapterView.OnItemSelect
             obj.put("studyTime", String.valueOf(timeTextView.getText()));
             obj.put("opened", true);
             obj.put("timePassed", true);
+            members = new ArrayList<String>();
+            members.add(String.valueOf(ParseUser.getCurrentUser().getObjectId()));
+            Log.i("AppInfo",String.valueOf(ParseUser.getCurrentUser().getObjectId()));
+            obj.put("member", members);
             obj.saveInBackground();
 
             Toast.makeText(getApplicationContext(), "Successful!", Toast.LENGTH_SHORT).show();
