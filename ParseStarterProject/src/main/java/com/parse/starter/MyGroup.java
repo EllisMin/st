@@ -7,10 +7,14 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +24,9 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MyGroup extends AppCompatActivity {
@@ -29,6 +36,10 @@ public class MyGroup extends AppCompatActivity {
     Button searchBtn;
     Button myGroupBtn;
     Button settingBtn;
+
+    List<String> dates = null;
+    List<String> categories = null;
+    List<String> titles = null;
 
     // When search button is tapped
     public void searchBtn(View view){
@@ -75,6 +86,13 @@ public class MyGroup extends AppCompatActivity {
         settingBtn.setTextColor(0xFFBFBFBF);
 
 
+        populateListView(); // method to create the list
+        registerClickCallback(); // method to implement click behavior of the list
+    }
+
+    private void populateListView() {
+        titles = new ArrayList<>();
+        dates = new ArrayList<>();
         // Use ACL to list the rooms created by oneself
         ParseQuery<ParseObject> roomQuery = ParseQuery.getQuery("Room");
 //        roomQuery.whereEqualTo("course", courseName);
@@ -82,35 +100,29 @@ public class MyGroup extends AppCompatActivity {
         roomQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
-                if (e == null){
-                    Log.i("APPINFO", "Retrieved" + objects.size() + "results");
+                if (e == null) {
+                    Log.i("APPINFO", "Retrieved " + objects.size() + " results");
+                    for (ParseObject obj : objects) {
+                        dates.add(String.valueOf(obj.get("studyDate")));
+                        Collections.sort(dates);
+                        titles.add(String.valueOf(obj.get("title")));
+                    }
+                    // Build adapter
+                    ArrayAdapter adapter = new ArrayAdapter<String>(MyGroup.this, R.layout.list_createdroom, R.id.date, dates);
+                    ArrayAdapter testAdapter = new ArrayAdapter<String>(MyGroup.this, R.layout.list_createdroom, R.id.roomTitle, titles);
+                    // Configure list view
+                    ListView list = (ListView) findViewById(R.id.myList);
+                    list.setAdapter(adapter);
+                    ListView tList = (ListView) findViewById(R.id.otherList);
+                    tList.setAdapter(testAdapter);
+
+                    Log.i("APPINFO", ""+ titles.size());
                 }
+
             }
         });
-
-        populateListView(); // method to create the list
-        registerClickCallback(); // method to implement click behavior of the list
     }
-
-    private void populateListView() {
-        // Create list of items
-        String[] date = {"1", "2", "3"};
-        String[] name;
-        String[] category;
-        String[] open;
-
-
-        // Build adapter
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                this,                       // Context for the activity
-                R.layout.list_createdroom,  // Layout to use (create)
-                date);                      // Items to be displayed
-
-        // Configure list view
-        ListView list = (ListView) findViewById(R.id.myList);
-        list.setAdapter(adapter);
-    }
-
+    // When tapping each item
     private void registerClickCallback() {
         ListView list = (ListView) findViewById(R.id.myList);
 
@@ -119,14 +131,46 @@ public class MyGroup extends AppCompatActivity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id) {
-                TextView textView = (TextView) viewClicked;
                 // behavior when tapped
-                String message = "you clicked #" + position +", which is string: " + textView.getText().toString();
-                Toast.makeText(MyGroup.this, message, Toast.LENGTH_LONG).show();
+                String message = "you clicked #" + position +", which is string: " + parent.getItemAtPosition(position);
+                Toast.makeText(MyGroup.this, message, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
+    // Custom Adapter class
+    private class CustomAdapter extends ArrayAdapter<String> {
+        public CustomAdapter() {
+            super(MyGroup.this, R.layout.list_createdroom);
+        }
+        public View getView(int position, View convertView, ViewGroup parent){
+
+            // Make sure we have a view to work with (may have given null)
+            View itemView = convertView;
+            if (itemView == null){
+                itemView = getLayoutInflater().inflate(R.layout.list_createdroom, parent, false);
+            }
+
+            // date
+            // title
+            // category
+            // capacity
+            // delete button
+
+//            LayoutInflater dateInflater = LayoutInflater.from(getContext());
+//            View customView = dateInflater.inflate(R.layout.list_createdroom, parent, false);
+//            String singleDateItem = getItem(position);
+//            TextView dateText = (TextView) customView.findViewById(R.id.date);
+//            ImageView capImage = (ImageView) customView.findViewById(R.id.capacityImage);
+//
+//            dateText.setText(singleDateItem);
+//            capImage.setImageResource(R.drawable.open);
+//
+//            return customView;
+            return null;
+        }
+    }
 
 }
+
 

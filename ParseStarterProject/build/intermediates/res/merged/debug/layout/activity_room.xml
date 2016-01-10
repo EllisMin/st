@@ -1,7 +1,3 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    >
 
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -9,54 +5,17 @@
     android:layout_height="fill_parent"
     android:background="#f0e5da">
 
-    <LinearLayout
-        android:id="@+id/buttonBar"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        style="@android:style/ButtonBar"
-        android:gravity="center"
-        android:background="#fff56770"
-        xmlns:android="http://schemas.android.com/apk/res/android">
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+        android:layout_above="@+id/buttonBar">
 
-        <Button
-            android:id="@+id/searchBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Search"
-            android:background="#f56770"
-            android:textColor="#ffffff"
-            android:onClick="searchBtn" />
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#f0e5da">
 
-        <Button android:id="@+id/createBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="#f56770"
-            android:text="Create"
-            android:textColor="#ffffff"/>
-
-        <Button
-            android:id="@+id/myGroupBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="#f56770"
-            android:onClick="myGroupBtn"
-            android:text="My
-Group"
-            android:textColor="#ffffff"/>
-
-        <Button android:id="@+id/settingBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="#f56770"
-            android:text="Setting"
-            android:textColor="#ffffff"
-            android:onClick="settingBtn" />
-    </LinearLayout>
 
 
     <EditText
@@ -196,8 +155,95 @@ Group"
         android:onClick="deleteBtn" />
 
 
+
+
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/commentBox"
+        android:layout_below="@+id/joinBtn"
+        android:layout_toRightOf="@+id/masterPhoto"
+        android:hint="Comment"
+        android:layout_toLeftOf="@+id/commentBtn"
+        android:layout_toStartOf="@+id/commentBtn"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Comment"
+        android:id="@+id/commentBtn"
+        android:layout_below="@+id/joinBtn"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+
+
+
+</RelativeLayout>
+    </ScrollView>
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/commentList"
+        android:layout_marginTop="345dp"
+        android:layout_above="@+id/buttonBar" />
+
+    <LinearLayout
+        android:id="@+id/buttonBar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        style="@android:style/ButtonBar"
+        android:gravity="center"
+        android:background="#fff56770"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <Button
+            android:id="@+id/searchBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Search"
+            android:background="#f56770"
+            android:textColor="#ffffff"
+            android:onClick="searchBtn" />
+
+        <Button android:id="@+id/createBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#f56770"
+            android:text="Create"
+            android:textColor="#ffffff"/>
+
+        <Button
+            android:id="@+id/myGroupBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#f56770"
+            android:onClick="myGroupBtn"
+            android:text="My
+Group"
+            android:textColor="#ffffff"/>
+
+        <Button android:id="@+id/settingBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#f56770"
+            android:text="Setting"
+            android:textColor="#ffffff"
+            android:onClick="settingBtn" />
+    </LinearLayout>
+
 </RelativeLayout>
 
 
-</ScrollView>
-<!-- From: file:/C:/Users/Junwoo/Desktop/st/ParseStarterProject/src/main/res/layout/activity_room.xml -->
+
+
+<!-- From: file:/Users/taehongmin/AndroidStudioProjects/st/ParseStarterProject/src/main/res/layout/activity_room.xml -->
