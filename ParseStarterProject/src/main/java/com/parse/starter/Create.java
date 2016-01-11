@@ -63,7 +63,7 @@ public class Create extends FragmentActivity implements AdapterView.OnItemSelect
 
     List<String> members;
 
-
+//    static List<Group> rooms = new ArrayList<>(); //
     static TextView dateTextView;
     static TextView timeTextView;
 
@@ -73,36 +73,25 @@ public class Create extends FragmentActivity implements AdapterView.OnItemSelect
         Log.i("APPINFO", String.valueOf(roomTitle.getText()));
         Log.i("APPINFO", String.valueOf(dateTextView.getText()));
         Log.i("APPINFO", String.valueOf(timeTextView.getText()));
-        if (roomTitle.getText().toString().matches("") || courseName.getText().toString().matches("") ||
+        if (selectedCategory.toString().matches("Category") || roomTitle.getText().toString().matches("") || courseName.getText().toString().matches("") ||
                 courseNumber.getText().toString().matches("") || capacity.getText().toString().matches("")
                 || description.getText().toString().matches("") || dateTextView.getText().toString().matches("Set Date")
-        || timeTextView.getText().toString().matches("Set Time")){
+                || timeTextView.getText().toString().matches("Set Time")) {
             Toast.makeText(getApplicationContext(), "Please fill out all required fields", Toast.LENGTH_SHORT).show();
             return;
-        }
-        else {
+        } else {
 
             // Creating room
-            ParseObject obj = new ParseObject("Room");
-            obj.put("title", String.valueOf(roomTitle.getText()));
-            obj.put("course", selectedCourse);
-            obj.put("number", selectedNumber);
-            obj.put("capacity", Integer.parseInt(String.valueOf(capacity.getText())));
-            obj.put("description", String.valueOf(description.getText()));
-            obj.put("studyDate", String.valueOf(dateTextView.getText()));
-            obj.put("studyTime", String.valueOf(timeTextView.getText()));
-            obj.put("opened", true);
-            obj.put("timePassed", true);
-            members = new ArrayList<String>();
-            members.add(String.valueOf(ParseUser.getCurrentUser().getObjectId()));
-            Log.i("AppInfo",String.valueOf(ParseUser.getCurrentUser().getObjectId()));
-            obj.put("member", members);
-            obj.saveInBackground();
+            Group newGroup = new Group(String.valueOf(roomTitle.getText()), String.valueOf(dateTextView.getText()),
+                    String.valueOf(timeTextView.getText()), selectedCourse, selectedNumber, selectedCategory,
+                    Integer.parseInt(String.valueOf(capacity.getText())), String.valueOf(description.getText()),
+                    true, true, members);
+//            rooms.add(newGroup);
 
+            // Toast message
             Toast.makeText(getApplicationContext(), "Successful!", Toast.LENGTH_SHORT).show();
-                    Intent i = new Intent(getApplicationContext(), MyGroup.class);
-                    startActivity(i);
-
+            Intent i = new Intent(getApplicationContext(), MyGroup.class);
+            startActivity(i);
         }
     }
 
@@ -119,7 +108,7 @@ public class Create extends FragmentActivity implements AdapterView.OnItemSelect
     }
 
     // When search button is tapped
-    public void searchBtn(View view){
+    public void searchBtn(View view) {
         Intent i = new Intent(getApplicationContext(), Search.class);
         // Removes animation
         i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -127,7 +116,7 @@ public class Create extends FragmentActivity implements AdapterView.OnItemSelect
     }
 
     // When myGroup button is tapped
-    public void myGroupBtn(View view){
+    public void myGroupBtn(View view) {
         Intent i = new Intent(getApplicationContext(), MyGroup.class);
         // Removes animation
         i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -135,7 +124,7 @@ public class Create extends FragmentActivity implements AdapterView.OnItemSelect
     }
 
     // when Setting button is tapped
-    public void settingBtn(View view){
+    public void settingBtn(View view) {
         Intent i = new Intent(getApplicationContext(), Setting.class);
         // Removes animation
         i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -171,9 +160,6 @@ public class Create extends FragmentActivity implements AdapterView.OnItemSelect
         description = (EditText) findViewById(R.id.description);
         doneBtn = (Button) findViewById(R.id.doneBtn);
         category = (Spinner) findViewById(R.id.category);
-
-
-
 
 
         category.setOnItemSelectedListener(this);
@@ -218,7 +204,7 @@ public class Create extends FragmentActivity implements AdapterView.OnItemSelect
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.toString().equals("")){
+                if (s.toString().equals("")) {
                     // List invisible
                     courseList.setVisibility(View.GONE);
                     courseNumber.setText("");
@@ -226,7 +212,7 @@ public class Create extends FragmentActivity implements AdapterView.OnItemSelect
                     courseNumberEnable(false);
 
 
-                }else{
+                } else {
                     // perform search
                     // List visible
                     courseList.setVisibility(View.VISIBLE);
@@ -238,6 +224,7 @@ public class Create extends FragmentActivity implements AdapterView.OnItemSelect
 
                 }
             }
+
             @Override
             public void afterTextChanged(Editable s) {
 
@@ -248,22 +235,21 @@ public class Create extends FragmentActivity implements AdapterView.OnItemSelect
     }
 
     // Search Course List
-    public void searchCourseItem(String textToSearch){
+    public void searchCourseItem(String textToSearch) {
         courseCopiedItems = new ArrayList<String>();
-        for(String item: courseItems){
+        for (String item : courseItems) {
             courseCopiedItems.add(item);
         }
 
 
-
         for (Iterator<String> iterator = courseCopiedItems.iterator(); iterator.hasNext(); ) {
             String value = iterator.next().toLowerCase();
-            if(!value.contains(textToSearch.toLowerCase())){
+            if (!value.contains(textToSearch.toLowerCase())) {
                 iterator.remove();
             }
         }
         Collections.sort(courseCopiedItems);
-        if(courseCopiedItems.size() == 0){
+        if (courseCopiedItems.size() == 0) {
             courseCopiedItems.add("No Result");
         }
 
@@ -272,19 +258,19 @@ public class Create extends FragmentActivity implements AdapterView.OnItemSelect
         courseList.setOnItemClickListener(this);
 
 
-
     }
+
     // Search Number List
-    public void searchNumItem(String textToSearch){
+    public void searchNumItem(String textToSearch) {
         // Copy number list to temporary list
         numCopiedItems = new ArrayList<String>();
-        for(String item: numberItems){
+        for (String item : numberItems) {
             numCopiedItems.add(item);
         }
 
         for (Iterator<String> iterator = numCopiedItems.iterator(); iterator.hasNext(); ) {
             String value = iterator.next();
-            if(!value.contains(textToSearch)){
+            if (!value.contains(textToSearch)) {
                 iterator.remove();
             }
         }
@@ -318,7 +304,7 @@ public class Create extends FragmentActivity implements AdapterView.OnItemSelect
     /*
         To disable number list until course is selected
      */
-    public void courseNumberEnable(boolean sw){
+    public void courseNumberEnable(boolean sw) {
 
         courseNumber.setEnabled(sw);
         courseNumber.setClickable(sw);
@@ -327,12 +313,11 @@ public class Create extends FragmentActivity implements AdapterView.OnItemSelect
     }
 
 
-
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-        if(adapterView.getId() == R.id.courseList){
+        if (adapterView.getId() == R.id.courseList) {
             String selected = courseCopiedItems.get(position);
-            if(selected.equals("No Result")){
+            if (selected.equals("No Result")) {
                 courseList.setVisibility(View.GONE);
                 courseName.setText("");
                 return;
@@ -396,13 +381,7 @@ public class Create extends FragmentActivity implements AdapterView.OnItemSelect
             });
 
 
-
-
-
-
-
-
-        }else if (adapterView.getId() == R.id.numberList){
+        } else if (adapterView.getId() == R.id.numberList) {
             String selected = numCopiedItems.get(position);
             courseNumber.setText(selected);
             selectedNumber = selected;

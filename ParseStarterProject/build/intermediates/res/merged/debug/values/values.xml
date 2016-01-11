@@ -3,6 +3,7 @@
     <!-- From: file:/Users/taehongmin/AndroidStudioProjects/st/ParseStarterProject/src/main/res/values/arrays.xml -->
     <eat-comment/>
     <string-array name="category">
+        <item>Category</item>
         <item>Exam</item>
         <item>Quiz</item>
         <item>Homework</item>

@@ -547,7 +547,7 @@ public final class R {
 		public static final int center_horizontal = 0x7f0d001c;
 		public static final int center_vertical = 0x7f0d001d;
 		public static final int checkbox = 0x7f0d004f;
-		public static final int chronometer = 0x7f0d00a3;
+		public static final int chronometer = 0x7f0d00a2;
 		public static final int clip_horizontal = 0x7f0d001e;
 		public static final int clip_vertical = 0x7f0d001f;
 		public static final int collapseActionView = 0x7f0d002c;
@@ -561,7 +561,7 @@ public final class R {
 		public static final int dropdown = 0x7f0d0031;
 		public static final int edit_query = 0x7f0d0059;
 		public static final int end = 0x7f0d0020;
-		public static final int end_padder = 0x7f0d00a8;
+		public static final int end_padder = 0x7f0d00a7;
 		public static final int enterAlways = 0x7f0d0014;
 		public static final int enterAlwaysCollapsed = 0x7f0d0015;
 		public static final int exitUntilCollapsed = 0x7f0d0016;
@@ -576,10 +576,10 @@ public final class R {
 		public static final int icon = 0x7f0d0042;
 		public static final int ifRoom = 0x7f0d002d;
 		public static final int image = 0x7f0d003f;
-		public static final int info = 0x7f0d00a7;
+		public static final int info = 0x7f0d00a6;
 		public static final int left = 0x7f0d0024;
 		public static final int line1 = 0x7f0d00a1;
-		public static final int line3 = 0x7f0d00a5;
+		public static final int line3 = 0x7f0d00a4;
 		public static final int listMode = 0x7f0d000a;
 		public static final int list_item = 0x7f0d0041;
 		public static final int media_actions = 0x7f0d009f;
@@ -625,10 +625,10 @@ public final class R {
 		public static final int status_bar_latest_event_content = 0x7f0d009e;
 		public static final int submit_area = 0x7f0d0062;
 		public static final int tabMode = 0x7f0d000c;
-		public static final int text = 0x7f0d00a6;
-		public static final int text2 = 0x7f0d00a4;
+		public static final int text = 0x7f0d00a5;
+		public static final int text2 = 0x7f0d00a3;
 		public static final int textSpacerNoButtons = 0x7f0d004a;
-		public static final int time = 0x7f0d00a2;
+		public static final int time = 0x7f0d009a;
 		public static final int title = 0x7f0d0043;
 		public static final int title_template = 0x7f0d0046;
 		public static final int top = 0x7f0d0027;

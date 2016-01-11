@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="category">
+        <item>Category</item>
         <item>Exam</item>
         <item>Quiz</item>
         <item>Homework</item>

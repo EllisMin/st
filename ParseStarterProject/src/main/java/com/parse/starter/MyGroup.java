@@ -25,6 +25,7 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import java.lang.reflect.Array;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,11 +38,7 @@ public class MyGroup extends AppCompatActivity {
     Button searchBtn;
     Button myGroupBtn;
     Button settingBtn;
-
-    List<List> listForAdapter;
-    List<String> dates;
-    List<String> categories;
-    List<String> titles;
+    List<ParseObject> groups = new ArrayList<>();
 
     // When search button is tapped
     public void searchBtn(View view) {
@@ -93,9 +90,7 @@ public class MyGroup extends AppCompatActivity {
     }
 
     private void populateListView() {
-        listForAdapter = new ArrayList<>();
-        titles = new ArrayList<>();
-        dates = new ArrayList<>();
+
         // Use ACL to list the rooms created by oneself
         ParseQuery<ParseObject> roomQuery = ParseQuery.getQuery("Room");
 //        roomQuery.whereEqualTo("course", courseName);
@@ -106,22 +101,13 @@ public class MyGroup extends AppCompatActivity {
                 if (e == null) {
                     Log.i("APPINFO", "Retrieved " + objects.size() + " results");
                     for (ParseObject obj : objects) {
-                        dates.add(String.valueOf(obj.get("studyDate")));
-                        Collections.sort(dates);
-                        titles.add(String.valueOf(obj.get("title")));
+                        groups.add(obj);
                     }
-                    listForAdapter.add(dates);
-                    listForAdapter.add(titles);
-                    Log.i("APPINFO", "" + listForAdapter.size());
                     // Build adapter
-//                    ArrayAdapter adapter = new CustomAdapter();
-                    ArrayAdapter adapter = new ArrayAdapter<String>(MyGroup.this, R.layout.list_createdroom, R.id.date, dates);
-                    ArrayAdapter testAdapter = new ArrayAdapter<String>(MyGroup.this, R.layout.list_createdroom, R.id.roomTitle, titles);
+                    ArrayAdapter<Group> adapter = new CustomAdapter();
                     // Configure list view
                     ListView list = (ListView) findViewById(R.id.myList);
                     list.setAdapter(adapter);
-                    ListView tList = (ListView) findViewById(R.id.otherList);
-                    tList.setAdapter(testAdapter);
                 }
             }
         });
@@ -144,27 +130,42 @@ public class MyGroup extends AppCompatActivity {
     // Custom Adapter class
     private class CustomAdapter extends ArrayAdapter {
         public CustomAdapter() {
-            super(MyGroup.this, R.layout.list_createdroom, listForAdapter);
+            super(MyGroup.this, R.layout.list_createdroom, groups);
         }
 
         public View getView(int position, View convertView, ViewGroup parent) {
-            Log.i("APPINFO", "333");
-            // date
-            // title
-            // category
-            // capacity
-            // delete button
-            LayoutInflater inflater = LayoutInflater.from(getContext());
-            View customView = inflater.inflate(R.layout.list_createdroom, parent, false);
-            String dateItem = (String) getItem(position);
-            TextView dateText = (TextView) customView.findViewById(R.id.date);
-            dateText.setText(dateItem);
+            Log.i("APPINFO", "view call");
 
-//            ImageView capImage = (ImageView) customView.findViewById(R.id.capacityImage);
-//            capImage.setImageResource(R.drawable.open);
+            View itemView = convertView;
+            // Make sure we have a view to work with (may have been null)
+            if (itemView == null) {
+                Log.i("APPINFO", "view is null");
+                itemView = getLayoutInflater().inflate(R.layout.list_createdroom, parent, false);
+            }
 
-            return customView;
+            // Find the group
+            ParseObject currentGroup = groups.get(position);
 
+            // Fill the view
+            TextView studyDate = (TextView) itemView.findViewById(R.id.date);
+            studyDate.setText(String.valueOf(currentGroup.get("studyDate")));
+
+            TextView studyTime = (TextView) itemView.findViewById(R.id.time);
+            studyTime.setText(String.valueOf(currentGroup.get("studyTime")));
+
+            TextView title = (TextView) itemView.findViewById(R.id.roomTitle);
+            title.setText(String.valueOf(currentGroup.get(("title"))));
+
+            TextView category = (TextView) itemView.findViewById(R.id.category);
+            category.setText(String.valueOf(currentGroup.get("category")));
+
+            TextView courseName = (TextView) itemView.findViewById(R.id.courseName);
+            courseName.setText(String.valueOf(currentGroup.get("course")));
+
+            TextView courseNumber = (TextView) itemView.findViewById(R.id.courseNumber);
+            courseNumber.setText(String.valueOf(currentGroup.get("number")));
+
+            return itemView;
         }
     }
 
