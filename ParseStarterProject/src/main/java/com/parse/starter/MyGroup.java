@@ -1,5 +1,6 @@
 package com.parse.starter;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -37,12 +38,13 @@ public class MyGroup extends AppCompatActivity {
     Button myGroupBtn;
     Button settingBtn;
 
-    List<String> dates = null;
-    List<String> categories = null;
-    List<String> titles = null;
+    List<List> listForAdapter;
+    List<String> dates;
+    List<String> categories;
+    List<String> titles;
 
     // When search button is tapped
-    public void searchBtn(View view){
+    public void searchBtn(View view) {
         Intent i = new Intent(getApplicationContext(), Search.class);
         // Removes animation
         i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -50,14 +52,15 @@ public class MyGroup extends AppCompatActivity {
     }
 
     // when Create button is tapped
-    public void createBtn(View view){
+    public void createBtn(View view) {
         Intent i = new Intent(getApplicationContext(), Create.class);
         // Removes animation
         i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivity(i);
     }
+
     // when Setting button is tapped
-    public void settingBtn(View view){
+    public void settingBtn(View view) {
         Intent i = new Intent(getApplicationContext(), Setting.class);
         // Removes animation
         i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -78,7 +81,6 @@ public class MyGroup extends AppCompatActivity {
         settingBtn = (Button) findViewById(R.id.settingBtn);
 
 
-
         //Chaning the button colors
         searchBtn.setTextColor(0xFFBFBFBF);
         createBtn.setTextColor(0xFFBFBFBF);
@@ -91,6 +93,7 @@ public class MyGroup extends AppCompatActivity {
     }
 
     private void populateListView() {
+        listForAdapter = new ArrayList<>();
         titles = new ArrayList<>();
         dates = new ArrayList<>();
         // Use ACL to list the rooms created by oneself
@@ -107,7 +110,11 @@ public class MyGroup extends AppCompatActivity {
                         Collections.sort(dates);
                         titles.add(String.valueOf(obj.get("title")));
                     }
+                    listForAdapter.add(dates);
+                    listForAdapter.add(titles);
+                    Log.i("APPINFO", "" + listForAdapter.size());
                     // Build adapter
+//                    ArrayAdapter adapter = new CustomAdapter();
                     ArrayAdapter adapter = new ArrayAdapter<String>(MyGroup.this, R.layout.list_createdroom, R.id.date, dates);
                     ArrayAdapter testAdapter = new ArrayAdapter<String>(MyGroup.this, R.layout.list_createdroom, R.id.roomTitle, titles);
                     // Configure list view
@@ -115,59 +122,49 @@ public class MyGroup extends AppCompatActivity {
                     list.setAdapter(adapter);
                     ListView tList = (ListView) findViewById(R.id.otherList);
                     tList.setAdapter(testAdapter);
-
-                    Log.i("APPINFO", ""+ titles.size());
                 }
-
             }
         });
     }
+
     // When tapping each item
     private void registerClickCallback() {
         ListView list = (ListView) findViewById(R.id.myList);
-
         // if onlick, is when tapping the list, not item
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id) {
                 // behavior when tapped
-                String message = "you clicked #" + position +", which is string: " + parent.getItemAtPosition(position);
+                String message = "you clicked #" + position + ", which is string: " + parent.getItemAtPosition(position);
                 Toast.makeText(MyGroup.this, message, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     // Custom Adapter class
-    private class CustomAdapter extends ArrayAdapter<String> {
+    private class CustomAdapter extends ArrayAdapter {
         public CustomAdapter() {
-            super(MyGroup.this, R.layout.list_createdroom);
+            super(MyGroup.this, R.layout.list_createdroom, listForAdapter);
         }
-        public View getView(int position, View convertView, ViewGroup parent){
 
-            // Make sure we have a view to work with (may have given null)
-            View itemView = convertView;
-            if (itemView == null){
-                itemView = getLayoutInflater().inflate(R.layout.list_createdroom, parent, false);
-            }
-
+        public View getView(int position, View convertView, ViewGroup parent) {
+            Log.i("APPINFO", "333");
             // date
             // title
             // category
             // capacity
             // delete button
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            View customView = inflater.inflate(R.layout.list_createdroom, parent, false);
+            String dateItem = (String) getItem(position);
+            TextView dateText = (TextView) customView.findViewById(R.id.date);
+            dateText.setText(dateItem);
 
-//            LayoutInflater dateInflater = LayoutInflater.from(getContext());
-//            View customView = dateInflater.inflate(R.layout.list_createdroom, parent, false);
-//            String singleDateItem = getItem(position);
-//            TextView dateText = (TextView) customView.findViewById(R.id.date);
 //            ImageView capImage = (ImageView) customView.findViewById(R.id.capacityImage);
-//
-//            dateText.setText(singleDateItem);
 //            capImage.setImageResource(R.drawable.open);
-//
-//            return customView;
-            return null;
+
+            return customView;
+
         }
     }
 

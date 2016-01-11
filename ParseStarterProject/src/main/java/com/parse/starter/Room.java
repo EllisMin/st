@@ -18,11 +18,18 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.parse.FindCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 public class Room extends AppCompatActivity implements OnItemSelectedListener {
@@ -41,20 +48,26 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
     Button joinBtn;
     Spinner category;
     ImageView masterPhoto;
+    EditText commentBox;
+    Button commentBtn;
+    ListView commentList;
+
+    List commentItem;
 
     Boolean timepassed;
     Boolean opened;
     String userId;
     Boolean roomEditable;
+    String objectIdRoom;
 
     String selectedCourse;
     String selectedNumber;
     String selectedCategory;
 
-    // TODO
-    // Check
     static TextView dateTextView;
     static TextView timeTextView;
+
+    Object[] commentArray;
 
     // Method for date picker
     public void setDate(View view) {
@@ -103,7 +116,6 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
         myGroupBtn = (Button) findViewById(R.id.myGroupBtn);
         settingBtn = (Button) findViewById(R.id.settingBtn);
 
-
         //Changing the button colors
         searchBtn.setTextColor(0xFFBFBFBF);
         createBtn.setTextColor(0xFFFFFFFF);
@@ -126,6 +138,9 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
         joinBtn = (Button) findViewById(R.id.joinBtn);
         editBtn = (Button) findViewById(R.id.editBtn);
         deleteBtn = (Button) findViewById(R.id.deleteBtn);
+        commentBtn = (Button) findViewById(R.id.commentBtn);
+        commentBox = (EditText) findViewById(R.id.commentBox);
+        commentList = (ListView) findViewById(R.id.commentList);
 
         category.setOnItemSelectedListener(this);
 
@@ -135,16 +150,16 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
         // Get course name and number from search_result
         Intent intent = getIntent();
         // Get objectId
-        String objectIdRoom = "2nqFDMwPyq";
+        objectIdRoom = "2nqFDMwPyq";
 
 
         ParseQuery<ParseObject> roomQuery = ParseQuery.getQuery("Room");
-
+        roomQuery.whereEqualTo("objectId", objectIdRoom);
         roomQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
-                if(e ==null){
-                    Log.i("AppInfo","roomQuery success");
+                if (e == null) {
+                    Log.i("AppInfo", "roomQuery success");
                     dateTextView.setText(String.valueOf(objects.get(0).get("studyDate")));
                     timeTextView.setText(String.valueOf(objects.get(0).get("studyTime")));
                     roomTitle.setText(String.valueOf(objects.get(0).get("title")));
@@ -152,35 +167,35 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
 
                     String categoryTemp = String.valueOf(objects.get(0).get("category"));
                     int cateNum;
-                    if(categoryTemp.equals("Exam")){
+                    if (categoryTemp.equals("Exam")) {
                         cateNum = 0;
-                    }else if(categoryTemp.equals("Quiz")){
+                    } else if (categoryTemp.equals("Quiz")) {
                         cateNum = 1;
-                    }else if(categoryTemp.equals("Homework")){
+                    } else if (categoryTemp.equals("Homework")) {
                         cateNum = 2;
-                    }else if(categoryTemp.equals("Project")){
+                    } else if (categoryTemp.equals("Project")) {
                         cateNum = 3;
-                    }else{
+                    } else {
                         cateNum = 4;
                     }
                     category.setSelection(cateNum);
                     courseName.setText(String.valueOf(objects.get(0).get("course")));
                     courseNumber.setText(String.valueOf(objects.get(0).get("number")));
                     description.setText(String.valueOf(objects.get(0).get("description")));
-                    if(String.valueOf(objects.get(0).get("timepassed")).equals("True")){
+                    if (String.valueOf(objects.get(0).get("timepassed")).equals("True")) {
                         timepassed = true;
-                    }else{
+                    } else {
                         timepassed = false;
                     }
-                    if(String.valueOf(objects.get(0).get("opened")).equals("True")){
+                    if (String.valueOf(objects.get(0).get("opened")).equals("True")) {
                         opened = true;
-                    }else{
+                    } else {
                         opened = false;
                     }
                     userId = (String.valueOf(objects.get(0).get("ACL")));
 
-                }else{
-                    Log.i("AppInfo","ParseException");
+                } else {
+                    Log.i("AppInfo", "ParseException");
                 }
             }
         });
@@ -247,9 +262,70 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
         delete button is tapped
      */
     public void deleteBtn(View view){
-        //Redirect to mygroup activity and delete the room object
+
+        // Delete the room object
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Room");
+        query.whereEqualTo("objectId", objectIdRoom);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if(e == null){
+                    Log.i("Appinfo", "Delete the Room");
+                    objects.get(0).deleteInBackground();
+                }else{
+                    Log.i("Appinfo","Delete fail");
+                }
+            }
+        });
+        //Redirect to mygroup activity
+        Intent i = new Intent(getApplicationContext(), MyGroup.class);
+        // Removes animation
+        i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(i);
     }
 
+
+    /*
+        If comment button is tapped
+     */
+    public void commentBtn(View view) {
+        if(commentBox.getText().equals("")){
+            // Do Nothing
+        }else{
+            // add it to the commentItems for commentList and update the change.
+            String comment = String.valueOf(commentBox.getText());
+            String commenterId = String.valueOf(ParseUser.getCurrentUser().getObjectId());
+
+            // Get date of today
+            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            Date rightnow = new Date();
+
+            commentArray = new Object[3];
+
+            commentArray[0] = comment;
+            commentArray[1] = commenterId;
+            commentArray[2] = rightnow;
+
+            ParseQuery<ParseObject> query = ParseQuery.getQuery("Room");
+            query.whereEqualTo("objectId", objectIdRoom);
+            query.findInBackground(new FindCallback<ParseObject>() {
+                @Override
+                public void done(List<ParseObject> objects, ParseException e) {
+                    if(e == null){
+                        Log.i("Appinfo", "put comment successfully");
+                        objects.get(0).addAll("comment", Arrays.asList(commentArray));
+                        objects.get(0).saveInBackground();
+                    }else{
+                        Log.i("Appinfo","putting comment fails");
+
+                    }
+                }
+            });
+
+
+
+        }
+    }
     /*
         To disable view
      */

@@ -64,6 +64,9 @@ public class SearchResult extends AppCompatActivity  {
         String courseName = intent.getStringExtra("courseName");
         String courseNumber = intent.getStringExtra("courseNumber");
 
+        Log.i("APPINFO", ""+courseName);
+        Log.i("APPINFO", ""+courseNumber);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_result);
         // Making Links to Buttons on Create
@@ -88,8 +91,7 @@ public class SearchResult extends AppCompatActivity  {
 
         ParseQuery<ParseObject> roomQuery = ParseQuery.getQuery("Room");
         roomQuery.whereEqualTo("course" , courseName);
-        roomQuery.whereEqualTo("number" , courseNumber);
-
+        roomQuery.whereEqualTo("number", courseNumber);
         roomQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
@@ -107,8 +109,6 @@ public class SearchResult extends AppCompatActivity  {
                         listItems.add(stringToAdd);
                         Log.i("Appinfo", "A");
                     }
-
-
                 } else {
                     Log.i("Appinfo", "B");
                     e.printStackTrace();
@@ -117,7 +117,7 @@ public class SearchResult extends AppCompatActivity  {
             }
         });
         initList();
-        listView.setOnItemClickListener((AdapterView.OnItemClickListener) this);
+//        listView.setOnItemClickListener((AdapterView.OnItemClickListener) this);
     }
     public void initList(){
 
@@ -132,7 +132,6 @@ public class SearchResult extends AppCompatActivity  {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getApplicationContext(), Room.class);
                 String category = listItems.get(position);
-
 
 
             }
