@@ -12,6 +12,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,9 +29,10 @@ import com.parse.ParseUser;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
-public class SearchResult extends AppCompatActivity {
+public class SearchResult extends AppCompatActivity  {
     Button createBtn;
     Button searchBtn;
     Button myGroupBtn;
@@ -98,7 +100,7 @@ public class SearchResult extends AppCompatActivity {
                         Log.i("Appinfo", String.valueOf(room.get("title")));
                         String stringToAdd = "";
                         stringToAdd = stringToAdd + String.valueOf(room.get("studyDate")) + "   " +
-                                String.valueOf(room.get("category")) + "    " + String.valueOf(room.get("opened") +"\n")
+                                String.valueOf(room.get("category")) + "    " + String.valueOf(room.get("opened") + "\n")
                                 + String.valueOf(room.get("title")) +
                                 "            "
                         ;
@@ -115,6 +117,7 @@ public class SearchResult extends AppCompatActivity {
             }
         });
         initList();
+        listView.setOnItemClickListener((AdapterView.OnItemClickListener) this);
     }
     public void initList(){
 
@@ -124,7 +127,20 @@ public class SearchResult extends AppCompatActivity {
 
         adapter = new ArrayAdapter<String>(this, R.layout.list_list, R.id.txtitem, listItems);
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getApplicationContext(), Room.class);
+                String category = listItems.get(position);
+
+
+
+            }
+        });
 
 
     }
+
+
+
 }
