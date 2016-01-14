@@ -44,13 +44,32 @@ public class SearchResult extends AppCompatActivity  {
     ArrayAdapter<String> adapter;
     ListView listView;
     TextView textView;
-    // when CREAT button is tapped
+
+
+
+    // When hit back button
+    public void back_searchResult(View view){
+        // Goes back to Login page
+        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(i);
+    }
+
+    // when Create button is tapped
     public void createBtn(View view){
         Intent i = new Intent(getApplicationContext(), Create.class);
         // Removes animation
         i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivity(i);
     }
+
+    // When myGroup button is tapped
+    public void myGroupBtn(View view) {
+        Intent i = new Intent(getApplicationContext(), MyGroup.class);
+        // Removes animation
+        i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(i);
+    }
+
     // when Setting button is tapped
     public void settingBtn(View view) {
         Intent i = new Intent(getApplicationContext(), Setting.class);
@@ -69,6 +88,7 @@ public class SearchResult extends AppCompatActivity  {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_result);
+
         // Making Links to Buttons on Create
         createBtn = (Button) findViewById(R.id.createBtn);
         searchBtn = (Button) findViewById(R.id.searchBtn);
@@ -76,7 +96,7 @@ public class SearchResult extends AppCompatActivity  {
         settingBtn = (Button) findViewById(R.id.settingBtn);
 
 
-        //Chaning the button colors
+        //Changing the button colors
         searchBtn.setTextColor(0xFFFFFFFF);
         createBtn.setTextColor(0xFFBFBFBF);
         myGroupBtn.setTextColor(0xFFBFBFBF);

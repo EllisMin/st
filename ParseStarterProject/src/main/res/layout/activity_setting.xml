@@ -65,4 +65,24 @@ Group"
         android:onClick="tempLogOut"
         android:textColor="#ffffff"/>
 
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:id="@+id/profilePhoto_setting"
+        android:layout_below="@+id/button"
+        android:layout_centerHorizontal="true"
+        android:onClick="onClick"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="debug"
+        android:id="@+id/debugLabel"
+        android:layout_below="@+id/profilePhoto_setting"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:onClick="onClick"
+        />
+
 </RelativeLayout>

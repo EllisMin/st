@@ -45,5 +45,16 @@
         android:maxLines="2"
         android:maxWidth="270dp"
         android:maxHeight="60dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date"
+        android:id="@+id/commentDate"
+        android:layout_alignTop="@+id/commentUsername"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="10dp" />
+
 </RelativeLayout>
-<!-- From: file:/C:/Users/Junwoo/Desktop/st/ParseStarterProject/src/main/res/layout/comment_view.xml -->
+<!-- From: file:/Users/taehongmin/AndroidStudioProjects/st/ParseStarterProject/src/main/res/layout/comment_view.xml -->
