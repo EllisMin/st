@@ -180,17 +180,15 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
-
-
-
-</RelativeLayout>
-    </ScrollView>
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/commentList"
-        android:layout_marginTop="345dp"
-        android:layout_above="@+id/buttonBar" />
+        android:layout_marginTop="345dp" />
+
+
+</RelativeLayout>
+    </ScrollView>
 
     <LinearLayout
         android:id="@+id/buttonBar"
@@ -246,4 +244,4 @@ Group"
 
 
 
-<!-- From: file:/Users/taehongmin/AndroidStudioProjects/st/ParseStarterProject/src/main/res/layout/activity_room.xml -->
+<!-- From: file:/C:/Users/Junwoo/Desktop/st/ParseStarterProject/src/main/res/layout/activity_room.xml -->

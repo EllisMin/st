@@ -1,6 +1,9 @@
 package com.parse.starter;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -8,8 +11,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -18,12 +23,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.parse.FindCallback;
+import com.parse.GetDataCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -52,7 +60,14 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
     Button commentBtn;
     ListView commentList;
 
-    List commentItem;
+    Comments commentObj;
+    List<Comments> commentItem;
+    ArrayAdapter<Comments> commentAdapter;
+    ParseFile userPhoto;
+    ImageView commentPhoto;
+    TextView commentary;
+    TextView commentUsername;
+    String commentUser;
 
     Boolean timepassed;
     Boolean opened;
@@ -67,7 +82,6 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
     static TextView dateTextView;
     static TextView timeTextView;
 
-    Object[] commentArray;
 
     // Method for date picker
     public void setDate(View view) {
@@ -192,6 +206,8 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
                     } else {
                         opened = false;
                     }
+                    // TODO
+                    // Get userId of bang-jang
                     userId = (String.valueOf(objects.get(0).get("ACL")));
 
                 } else {
@@ -218,11 +234,105 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
         // Disable all the views and make buttons invisible when it is not edit mode
         editMode(false);
 
+        //TODO
+        // COMMENT    Creating comment object
+        // Get Comment Items list
+        ParseQuery<ParseObject> commentQuery = ParseQuery.getQuery("Room");
+        commentQuery.whereEqualTo("objectId",objectIdRoom);
+        commentQuery.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if(e == null){
+                    ParseObject course = objects.get(0);
+                    commentItem = (ArrayList<Comments>) course.get("comment");
+                }else{
+                    Log.i("Appinfo","failed to get comments");
+                }
+            }
+        });
 
 
 
+        // comment adapter
+        commentAdapter = new commentAdapt();
+        commentList.setAdapter(commentAdapter);
 
 
+
+    }
+
+    private class commentAdapt extends ArrayAdapter<Comments>{
+        public commentAdapt(){
+            super(Room.this, R.layout.comment_view, commentItem);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent){
+            // Make sure we have a view to work with (may have been given null)
+            View cmtView = convertView;
+            if(cmtView == null){
+                cmtView = getLayoutInflater().inflate(R.layout.comment_view, parent, false);
+            }
+            // Find the comment to work with.
+            commentObj = commentItem.get(position);
+
+            // Fill the view.
+            // ImageView
+            commentPhoto= (ImageView) cmtView.findViewById(R.id.commentPhoto);
+
+            String objectIdOfCommentUser = commentObj.getCommenterId();
+
+            // Get the user and image from him
+
+            ParseQuery<ParseObject> userQuery = ParseQuery.getQuery("User");
+            userQuery.whereEqualTo("objectId",objectIdOfCommentUser);
+            userQuery.findInBackground(new FindCallback<ParseObject>() {
+                @Override
+                public void done(List<ParseObject> objects, ParseException e) {
+                    if(e == null){
+                        ParseObject userObj = objects.get(0);
+                        userPhoto = userObj.getParseFile("photo");
+                        commentUser = userObj.getString("username");
+                    }else{
+                        Log.i("Appinfo","failed to get user for photo");
+                    }
+                }
+            });
+
+
+
+            //TODO DongBin
+            // Set the image to the commentPhoto imageView
+            if(userPhoto != null){
+                userPhoto.getDataInBackground(new GetDataCallback() {
+                    @Override
+                    public void done(byte[] data, ParseException e) {
+                        if(e == null){
+                            Bitmap bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
+                            commentPhoto.setImageBitmap(bmp);
+                        }
+                        else{
+                            Log.i("Appinfo", "converting Parsefile image to bitmap fails");
+                        }
+                    }
+                });
+            }else{
+                Log.i("Appinfo", "Getting the user's photo fails");
+            }
+
+            // Commentary Textview
+            commentary = (TextView) findViewById(R.id.commentary);
+            commentary.setText(commentObj.getComment());
+
+            // CommentUsername Textview
+            commentUsername = (TextView) findViewById(R.id.commentUsername);
+            commentUsername.setText(commentUser);
+
+            //TODO
+            // Comment Date
+
+            return cmtView;
+        }
     }
 
     private void editMode(boolean b) {
@@ -300,11 +410,9 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             Date rightnow = new Date();
 
-            commentArray = new Object[3];
+            // Comment object
+            commentObj = new Comments(comment, commenterId, rightnow);
 
-            commentArray[0] = comment;
-            commentArray[1] = commenterId;
-            commentArray[2] = rightnow;
 
             ParseQuery<ParseObject> query = ParseQuery.getQuery("Room");
             query.whereEqualTo("objectId", objectIdRoom);
@@ -313,7 +421,7 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
                 public void done(List<ParseObject> objects, ParseException e) {
                     if(e == null){
                         Log.i("Appinfo", "put comment successfully");
-                        objects.get(0).addAll("comment", Arrays.asList(commentArray));
+                        objects.get(0).add("comment", commentObj);
                         objects.get(0).saveInBackground();
                     }else{
                         Log.i("Appinfo","putting comment fails");
@@ -322,6 +430,8 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
                 }
             });
 
+            // TODO
+            // Update Comment list
 
 
         }
@@ -340,3 +450,4 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
 
 
 }
+
