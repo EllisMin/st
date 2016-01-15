@@ -14,16 +14,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 
+import com.parse.FindCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 
 public class Setting extends AppCompatActivity implements View.OnClickListener {
 
@@ -31,8 +38,8 @@ public class Setting extends AppCompatActivity implements View.OnClickListener {
     Button searchBtn;
     Button myGroupBtn;
     Button settingBtn;
-
     ImageView profilePhoto;
+    TextView userName;
 
     // when Search button is tapped
     public void searchBtn(View view) {
@@ -81,7 +88,7 @@ public class Setting extends AppCompatActivity implements View.OnClickListener {
         myGroupBtn = (Button) findViewById(R.id.myGroupBtn);
         settingBtn = (Button) findViewById(R.id.settingBtn);
         profilePhoto = (ImageView) findViewById(R.id.profilePhoto_setting);
-
+        userName = (TextView) findViewById(R.id.userNameLabel);
 
         //Changing the button colors
         searchBtn.setTextColor(0xFFBFBFBF);
@@ -93,6 +100,8 @@ public class Setting extends AppCompatActivity implements View.OnClickListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        // Load user ID
+        userName.setText(String.valueOf(ParseUser.getCurrentUser().getUsername()));
     }
 
     // Loading the image from parse
@@ -106,7 +115,7 @@ public class Setting extends AppCompatActivity implements View.OnClickListener {
                 Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
                 // Displaying the image
                 ImageView profile = (ImageView) findViewById(R.id.profilePhoto_setting);
-                profile.setImageBitmap(RoundedImageView.getCroppedBitmap(bitmap, 440));
+                profile.setImageBitmap(RoundedImageView.getCroppedBitmap(bitmap, 220));
             }
         });
     }
@@ -136,6 +145,7 @@ public class Setting extends AppCompatActivity implements View.OnClickListener {
 //            startActivityForResult(i, 1);
         }
 
+        // Sending an e-mail to debug
         if (v.getId() == R.id.debugLabel) {
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.setType("text/html");
@@ -143,6 +153,11 @@ public class Setting extends AppCompatActivity implements View.OnClickListener {
             intent.putExtra(Intent.EXTRA_SUBJECT, "Your app has a bug");
             intent.putExtra(Intent.EXTRA_TEXT, "YOLO");
             startActivity(Intent.createChooser(intent, "Send Email"));
+        }
+
+        // Changing account setting
+        if (v.getId() == R.id.accountSetting){
+
         }
     }
 }
