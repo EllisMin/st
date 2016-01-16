@@ -169,9 +169,8 @@ public class SearchResult extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent(getApplicationContext(), Room.class);
-        String passingID = objectIDs.get(position);
-        intent.putExtra("objectID", passingID);
+        ParseObject obj = (ParseObject) parent.getItemAtPosition(position);
+        intent.putExtra("objectID", obj.getObjectId());
         startActivity(intent);
-
     }
 }

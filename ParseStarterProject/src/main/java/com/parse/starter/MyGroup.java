@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -42,6 +43,7 @@ public class MyGroup extends AppCompatActivity {
 //    List<ParseObject> groups = new ArrayList<>(); // All rooms
     List<ParseObject> myGroups = new ArrayList<>();
     List<ParseObject> otherGroups = new ArrayList<>();
+    List<String> objectIDs;
 
     // When search button is tapped
     public void searchBtn(View view) {
@@ -81,7 +83,7 @@ public class MyGroup extends AppCompatActivity {
         settingBtn = (Button) findViewById(R.id.settingBtn);
 
 
-        //Chaning the button colors
+        // Changing the button colors
         searchBtn.setTextColor(0xFFBFBFBF);
         createBtn.setTextColor(0xFFBFBFBF);
         myGroupBtn.setTextColor(0xFFFFFFFF);
@@ -104,7 +106,7 @@ public class MyGroup extends AppCompatActivity {
                 if (e == null) {
                     Log.i("APPINFO", "Retrieved " + objects.size() + " results");
                     for (ParseObject obj : objects) {
-                        if(obj.get("createdBy").equals(ParseUser.getCurrentUser())){
+                        if (obj.get("createdBy").equals(ParseUser.getCurrentUser())) {
                             myGroups.add(obj);
                         }
 
@@ -130,13 +132,19 @@ public class MyGroup extends AppCompatActivity {
     // When tapping each item
     private void registerClickCallback() {
         ListView list = (ListView) findViewById(R.id.myList);
-        // if onlick, is when tapping the list, not item
+        // if onClick, is when tapping the list, not item
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id) {
                 // behavior when tapped
                 String message = "you clicked #" + position + ", which is string: " + parent.getItemAtPosition(position);
                 Toast.makeText(MyGroup.this, message, Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(getApplicationContext(), Room.class);
+//                String passingID = objectIDs.get(position); // room's obj id
+                ParseObject obj = (ParseObject) parent.getItemAtPosition(position);
+                Log.i("APPINFO", "Object id: "+obj.getObjectId());
+                i.putExtra("objectID", obj.getObjectId());
+                startActivity(i);
             }
         });
     }

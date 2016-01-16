@@ -41,6 +41,8 @@ public class Setting extends AppCompatActivity implements View.OnClickListener {
     Button settingBtn;
     ImageView profilePhoto;
     TextView userName;
+    TextView version;
+    final String APPVERSION = "0.0.0.000001";
 
     // when Search button is tapped
     public void searchBtn(View view) {
@@ -90,6 +92,7 @@ public class Setting extends AppCompatActivity implements View.OnClickListener {
         settingBtn = (Button) findViewById(R.id.settingBtn);
         profilePhoto = (ImageView) findViewById(R.id.profilePhoto_setting);
         userName = (TextView) findViewById(R.id.userNameLabel);
+        version = (TextView) findViewById(R.id.version);
 
         //Changing the button colors
         searchBtn.setTextColor(0xFFBFBFBF);
@@ -103,6 +106,8 @@ public class Setting extends AppCompatActivity implements View.OnClickListener {
         }
         // Load user ID
         userName.setText(String.valueOf(ParseUser.getCurrentUser().getUsername()));
+        // Load app version (final variable that is on the top)
+        version.setText(APPVERSION);
     }
 
     // Loading the image from parse

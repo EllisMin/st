@@ -131,7 +131,7 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
         myGroupBtn = (Button) findViewById(R.id.myGroupBtn);
         settingBtn = (Button) findViewById(R.id.settingBtn);
 
-        //Changing the button colors
+        // Changing the button colors
         searchBtn.setTextColor(0xFFBFBFBF);
         createBtn.setTextColor(0xFFFFFFFF);
         myGroupBtn.setTextColor(0xFFBFBFBF);
@@ -164,14 +164,14 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
         //TODO
         // Get course name and number from search_result
         Intent intent = getIntent();
-        objectIdRoom = "8iI6bBcHpF";
-//        objectIdRoom = intent.getStringExtra("objectID");
+//        objectIdRoom = "8iI6bBcHpF";
+        objectIdRoom = intent.getStringExtra("objectID");
         Log.i("AppInfo",objectIdRoom);
         // Get objectId
 
-
+        // McpbuuzFJh
         ParseQuery<ParseObject> roomQuery = ParseQuery.getQuery("Room");
-        roomQuery.whereEqualTo("objectId", "McpbuuzFJh");
+        roomQuery.whereEqualTo("objectId", objectIdRoom);
         roomQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
