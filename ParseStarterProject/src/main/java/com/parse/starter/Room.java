@@ -164,19 +164,19 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
         //TODO
         // Get course name and number from search_result
         Intent intent = getIntent();
-        objectIdRoom = "450SzZbmpK";
+        objectIdRoom = "8iI6bBcHpF";
 //        objectIdRoom = intent.getStringExtra("objectID");
         Log.i("AppInfo",objectIdRoom);
         // Get objectId
 
 
         ParseQuery<ParseObject> roomQuery = ParseQuery.getQuery("Room");
-        roomQuery.whereEqualTo("objectId", objectIdRoom);
+        roomQuery.whereEqualTo("objectId", "McpbuuzFJh");
         roomQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
                 if (e == null) {
-                    Log.i("AppInfo", "roomQuery success");
+                    Log.i("AppInfo", "roomQuery success" + objects.size());
                     dateTextView.setText(String.valueOf(objects.get(0).get("studyDate")));
                     timeTextView.setText(String.valueOf(objects.get(0).get("studyTime")));
                     roomTitle.setText(String.valueOf(objects.get(0).get("title")));
@@ -241,17 +241,22 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
 
         // COMMENT
         // Get Comment Items list
+        commentItem = new ArrayList<Comments>();
         ParseQuery<ParseObject> commentQuery = ParseQuery.getQuery("Room");
         commentQuery.whereEqualTo("objectId", objectIdRoom);
         commentQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
                 if (e == null) {
-                    ParseObject course = objects.get(0);
-                    commentItem = new ArrayList<Comments>();
-                    List<Comments> temp = (ArrayList<Comments>) course.get("comment");
-                    for(Comments obj: temp) {
-                        commentItem.add(obj);
+                    if(objects.size() == 0){}
+                    else {
+                        ParseObject course = objects.get(0);
+
+                        ArrayList<Comments> temp = (ArrayList<Comments>) course.get("comment");
+                        Log.i("Appinfo", "" + temp.size());
+                        for (Comments obj : temp) {
+                            commentItem.add(obj);
+                        }
                     }
                 } else {
                     Log.i("Appinfo", "failed to get comments");

@@ -126,22 +126,25 @@ public class Setting extends AppCompatActivity implements View.OnClickListener {
         if (v.getId() == R.id.profilePhoto_setting) {
             // When the user taps the user photo
             Log.i("APPINFO", "HEEHE");
-            new AlertDialog.Builder(this)
-                    .setTitle("Changing photo")
-                    .setMessage("Would you want to change your photo?")
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            // continue changing photo
 
-                        }
-                    })
-                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            // do nothing
-                        }
-                    })
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .show();
+            // Giving alert
+//            new AlertDialog.Builder(this)
+//                    .setTitle("Changing photo")
+//                    .setMessage("Would you want to change your photo?")
+//                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            // continue changing photo
+//
+//                        }
+//                    })
+//                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            // do nothing
+//                        }
+//                    })
+//                    .setIcon(android.R.drawable.ic_dialog_alert)
+//                    .show();
+
 //            Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 //            startActivityForResult(i, 1);
         }
@@ -150,7 +153,7 @@ public class Setting extends AppCompatActivity implements View.OnClickListener {
         if (v.getId() == R.id.debugLabel) {
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.setType("text/html");
-            intent.putExtra(Intent.EXTRA_EMAIL, "dbmin@hotmail.com");
+            intent.putExtra(Intent.EXTRA_EMAIL, ParseUser.getCurrentUser().getEmail());
             intent.putExtra(Intent.EXTRA_SUBJECT, "Your app has a bug");
             intent.putExtra(Intent.EXTRA_TEXT, "YOLO");
             startActivity(Intent.createChooser(intent, "Send Email"));

@@ -32,7 +32,7 @@ public class Group {
     private boolean opened; // Variable that becomes false when capacity hits the maximum
     private boolean timePassed; // Variable that becomes false when study time passes
     private List members;
-
+    private List<Comments> cmt;
 
     public Group(String title, String studyDate, String studyTime, String courseName,
                  String courseNumber, String category,
@@ -50,8 +50,11 @@ public class Group {
         obj.put("opened", opened);
         obj.put("timePassed", timePassed);
         obj.put("category", category);
+        obj.put("createdBy", ParseUser.getCurrentUser());
+        cmt = new ArrayList<Comments>();
+        obj.put("comment", cmt);
         members = new ArrayList<String>();
-        members.add(String.valueOf(ParseUser.getCurrentUser().getObjectId()));
+        members.add(String.valueOf(ParseUser.getCurrentUser()));
         Log.i("AppInfo", String.valueOf(ParseUser.getCurrentUser().getObjectId()));
         obj.put("member", members);
 //

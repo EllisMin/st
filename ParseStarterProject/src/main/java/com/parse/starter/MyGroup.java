@@ -24,6 +24,7 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.lang.reflect.Array;
 import java.util.ArrayDeque;
@@ -38,7 +39,9 @@ public class MyGroup extends AppCompatActivity {
     Button searchBtn;
     Button myGroupBtn;
     Button settingBtn;
-    List<ParseObject> groups = new ArrayList<>();
+//    List<ParseObject> groups = new ArrayList<>(); // All rooms
+    List<ParseObject> myGroups = new ArrayList<>();
+    List<ParseObject> otherGroups = new ArrayList<>();
 
     // When search button is tapped
     public void searchBtn(View view) {
@@ -101,13 +104,24 @@ public class MyGroup extends AppCompatActivity {
                 if (e == null) {
                     Log.i("APPINFO", "Retrieved " + objects.size() + " results");
                     for (ParseObject obj : objects) {
-                        groups.add(obj);
+                        if(obj.get("createdBy").equals(ParseUser.getCurrentUser())){
+                            myGroups.add(obj);
+                        }
+
+                        //@TODO
+                        // groups that I'm joined in
+//                        else{
+//                            otherGroups.add(obj);
+//                        }
                     }
                     // Build adapter
-                    ArrayAdapter<Group> adapter = new CustomAdapter();
+                    ArrayAdapter<Group> adapter_myGroup = new CustomAdapter(myGroups); // For first listView
+                    ArrayAdapter<Group> adapter_otherGroup = new CustomAdapter(otherGroups);
                     // Configure list view
-                    ListView list = (ListView) findViewById(R.id.myList);
-                    list.setAdapter(adapter);
+                    ListView list_myGroup = (ListView) findViewById(R.id.myList);
+                    list_myGroup.setAdapter(adapter_myGroup);
+                    ListView list_otherGroup = (ListView) findViewById(R.id.otherList);
+                    list_otherGroup.setAdapter(adapter_otherGroup);
                 }
             }
         });
@@ -129,8 +143,10 @@ public class MyGroup extends AppCompatActivity {
 
     // Custom Adapter class
     private class CustomAdapter extends ArrayAdapter {
-        public CustomAdapter() {
-            super(MyGroup.this, R.layout.list_createdroom, groups);
+        List<ParseObject> list; // Either myGroups or otherGroups
+        public CustomAdapter(List<ParseObject> list) {
+            super(MyGroup.this, R.layout.list_createdroom, list);
+            this.list = list;
         }
 
         public View getView(int position, View convertView, ViewGroup parent) {
@@ -144,7 +160,7 @@ public class MyGroup extends AppCompatActivity {
             }
 
             // Find the group
-            ParseObject currentGroup = groups.get(position);
+            ParseObject currentGroup = list.get(position);
 
             // Fill the view
             TextView studyDate = (TextView) itemView.findViewById(R.id.date);
