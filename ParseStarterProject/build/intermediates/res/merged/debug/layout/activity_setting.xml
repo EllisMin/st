@@ -127,4 +127,4 @@ Group"
         android:layout_alignLeft="@+id/notification"
         android:layout_alignStart="@+id/notification" />
 
-</RelativeLayout><!-- From: file:/Users/taehongmin/AndroidStudioProjects/st/ParseStarterProject/src/main/res/layout/activity_setting.xml -->
+</RelativeLayout><!-- From: file:/Users/mjpark/AndroidStudioProjects/st/ParseStarterProject/src/main/res/layout/activity_setting.xml -->

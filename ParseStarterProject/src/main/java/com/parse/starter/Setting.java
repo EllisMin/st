@@ -1,5 +1,6 @@
 package com.parse.starter;
 
+import android.accounts.Account;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -158,6 +159,9 @@ public class Setting extends AppCompatActivity implements View.OnClickListener {
         // Changing account setting
         if (v.getId() == R.id.accountSetting){
 
+            // move to AccountSetting page
+            Intent i = new Intent(getApplicationContext(), AccountSetting.class);
+            startActivity(i);
         }
     }
 }

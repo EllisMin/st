@@ -70,6 +70,11 @@
             android:name="com.parse.starter.Room"
             android:label="@string/title_activity_room"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name="com.parse.starter.AccountSetting"
+            android:label="@string/title_activity_account_setting"
+            android:theme="@style/AppTheme" >
+        </activity>
     </application>
 
 </manifest>

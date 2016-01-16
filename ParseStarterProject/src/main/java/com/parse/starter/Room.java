@@ -67,6 +67,7 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
     ImageView commentPhoto;
     TextView commentary;
     TextView commentUsername;
+    TextView commentDate;
     String commentUser;
 
     Boolean timepassed;
@@ -163,8 +164,10 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
         //TODO
         // Get course name and number from search_result
         Intent intent = getIntent();
+        objectIdRoom = "450SzZbmpK";
+//        objectIdRoom = intent.getStringExtra("objectID");
+        Log.i("AppInfo",objectIdRoom);
         // Get objectId
-        objectIdRoom = "2nqFDMwPyq";
 
 
         ParseQuery<ParseObject> roomQuery = ParseQuery.getQuery("Room");
@@ -210,6 +213,8 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
                     // Get userId of bang-jang
                     userId = (String.valueOf(objects.get(0).get("ACL")));
 
+
+
                 } else {
                     Log.i("AppInfo", "ParseException");
                 }
@@ -234,23 +239,25 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
         // Disable all the views and make buttons invisible when it is not edit mode
         editMode(false);
 
-        //TODO
-        // COMMENT    Creating comment object
+        // COMMENT
         // Get Comment Items list
         ParseQuery<ParseObject> commentQuery = ParseQuery.getQuery("Room");
-        commentQuery.whereEqualTo("objectId",objectIdRoom);
+        commentQuery.whereEqualTo("objectId", objectIdRoom);
         commentQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
-                if(e == null){
+                if (e == null) {
                     ParseObject course = objects.get(0);
-                    commentItem = (ArrayList<Comments>) course.get("comment");
-                }else{
-                    Log.i("Appinfo","failed to get comments");
+                    commentItem = new ArrayList<Comments>();
+                    List<Comments> temp = (ArrayList<Comments>) course.get("comment");
+                    for(Comments obj: temp) {
+                        commentItem.add(obj);
+                    }
+                } else {
+                    Log.i("Appinfo", "failed to get comments");
                 }
             }
         });
-
 
 
         // comment adapter
@@ -259,28 +266,34 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
 
 
 
+
+
     }
 
-    private class commentAdapt extends ArrayAdapter<Comments>{
+
+
+    private class commentAdapt extends ArrayAdapter{
         public commentAdapt(){
             super(Room.this, R.layout.comment_view, commentItem);
+            Log.i("CommentInfo", "Constructor");
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent){
             // Make sure we have a view to work with (may have been given null)
+            Log.i("CommentInfo", "getView method1");
             View cmtView = convertView;
             if(cmtView == null){
                 cmtView = getLayoutInflater().inflate(R.layout.comment_view, parent, false);
             }
             // Find the comment to work with.
-            commentObj = commentItem.get(position);
+            Comments commentObject = commentItem.get(position);
 
             // Fill the view.
             // ImageView
-            commentPhoto= (ImageView) cmtView.findViewById(R.id.commentPhoto);
+//            commentPhoto= (ImageView) cmtView.findViewById(R.id.commentPhoto);
 
-            String objectIdOfCommentUser = commentObj.getCommenterId();
+            String objectIdOfCommentUser = commentObject.getCommenterId();
 
             // Get the user and image from him
 
@@ -289,51 +302,117 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
             userQuery.findInBackground(new FindCallback<ParseObject>() {
                 @Override
                 public void done(List<ParseObject> objects, ParseException e) {
-                    if(e == null){
+                    if (e == null) {
                         ParseObject userObj = objects.get(0);
                         userPhoto = userObj.getParseFile("photo");
                         commentUser = userObj.getString("username");
-                    }else{
-                        Log.i("Appinfo","failed to get user for photo");
+                    } else {
+                        Log.i("Appinfo", "failed to get user for photo");
                     }
                 }
             });
 
 
 
-            //TODO DongBin
-            // Set the image to the commentPhoto imageView
-            if(userPhoto != null){
-                userPhoto.getDataInBackground(new GetDataCallback() {
-                    @Override
-                    public void done(byte[] data, ParseException e) {
-                        if(e == null){
-                            Bitmap bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
-                            commentPhoto.setImageBitmap(bmp);
-                        }
-                        else{
-                            Log.i("Appinfo", "converting Parsefile image to bitmap fails");
-                        }
-                    }
-                });
-            }else{
-                Log.i("Appinfo", "Getting the user's photo fails");
-            }
+//            //TODO DongBin
+//            // Set the image to the commentPhoto imageView
+//            if(userPhoto != null){
+//                userPhoto.getDataInBackground(new GetDataCallback() {
+//                    @Override
+//                    public void done(byte[] data, ParseException e) {
+//                        if(e == null){
+//                            Bitmap bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
+//                            commentPhoto.setImageBitmap(bmp);
+//                        }
+//                        else{
+//                            Log.i("Appinfo", "converting Parsefile image to bitmap fails");
+//                        }
+//                    }
+//                });
+//            }else{
+//                Log.i("Appinfo", "Getting the user's photo fails");
+//            }
 
             // Commentary Textview
-            commentary = (TextView) findViewById(R.id.commentary);
-            commentary.setText(commentObj.getComment());
+            commentary = (TextView) cmtView.findViewById(R.id.commentary);
+            commentary.setText(commentObject.getComment());
 
             // CommentUsername Textview
-            commentUsername = (TextView) findViewById(R.id.commentUsername);
+            commentUsername = (TextView) cmtView.findViewById(R.id.commentUsername);
             commentUsername.setText(commentUser);
 
-            //TODO
+
             // Comment Date
+            commentDate = (TextView) findViewById(R.id.commentDate);
+            commentDate.setText(printDate(commentObject.getDate()));
+
+
 
             return cmtView;
         }
     }
+
+    /*
+        return print version of Dates of comments.
+        Converting Date to comment format date String
+     */
+    private String printDate(Date cmtdate){
+        Date todayNow = new Date();
+
+        if(todayNow.getYear() == cmtdate.getYear()){
+            // Same year
+            if(todayNow.getMonth() == cmtdate.getMonth()){
+                // same month
+                if(todayNow.getDate() == cmtdate.getDate()){
+                    // same date
+                    if(todayNow.getHours()==cmtdate.getHours()){
+                        // same hours
+                        if(todayNow.getMinutes()==cmtdate.getMinutes()){
+                            //same minutes
+                            return "Now";
+                        }else{
+                            //same year, month,date, hours but diff minutes
+                            // "OO minutes ago"
+                            return todayNow.getMinutes()-cmtdate.getMinutes() + " minutes ago";
+                        }
+                    }else{
+                        //same year,month,date but diff hours
+                        // "OO hours ago"
+                        return todayNow.getHours() - cmtdate.getHours() + " hours ago";
+                    }
+                }else{
+                    // same year, same month, different date
+                    // "OO days ago"
+                    // "OO weeks ago"
+                    String dayResult;
+                    int days = todayNow.getDate() - cmtdate.getDate();
+                    if (days < 14){
+                        dayResult = days + " days ago";
+                    }else if(days > 13 && days < 21){
+                        dayResult = "2 weeks ago";
+                    }else if(days > 20 && days < 28){
+                        dayResult = "3 weeks ago";
+                    }else{
+                        dayResult = "4 weeks ago";
+                    }
+                    return dayResult;
+                }
+            }else {
+                // same year different month
+                //"OO months ago"
+                return todayNow.getMonth() - cmtdate.getMonth() + " months ago";
+            }
+        }else{
+            // different year
+            //"OO years ago"
+            return todayNow.getYear() - cmtdate.getYear() + " years ago";
+        }
+
+
+
+    }
+
+
 
     private void editMode(boolean b) {
 
@@ -402,6 +481,7 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
         if(commentBox.getText().equals("")){
             // Do Nothing
         }else{
+
             // add it to the commentItems for commentList and update the change.
             String comment = String.valueOf(commentBox.getText());
             String commenterId = String.valueOf(ParseUser.getCurrentUser().getObjectId());
@@ -450,4 +530,3 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
 
 
 }
-
