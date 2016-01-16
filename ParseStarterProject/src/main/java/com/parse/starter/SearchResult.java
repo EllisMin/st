@@ -32,7 +32,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-public class SearchResult extends AppCompatActivity  {
+public class SearchResult extends AppCompatActivity implements AdapterView.OnItemClickListener  {
     Button createBtn;
     Button searchBtn;
     Button myGroupBtn;
@@ -41,16 +41,23 @@ public class SearchResult extends AppCompatActivity  {
 
     String[] courses;
     List<String> listItems;
+    List<String> objectIDs;
     ArrayAdapter<String> adapter;
     ListView listView;
     TextView textView;
-
-
 
     // When hit back button
     public void back_searchResult(View view){
         // Goes back to Login page
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(i);
+    }
+
+    // When myGroup button is tapped
+    public void myGroupBtn(View view) {
+        Intent i = new Intent(getApplicationContext(), MyGroup.class);
+        // Removes animation
+        i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivity(i);
     }
 
@@ -62,13 +69,6 @@ public class SearchResult extends AppCompatActivity  {
         startActivity(i);
     }
 
-    // When myGroup button is tapped
-    public void myGroupBtn(View view) {
-        Intent i = new Intent(getApplicationContext(), MyGroup.class);
-        // Removes animation
-        i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        startActivity(i);
-    }
 
     // when Setting button is tapped
     public void settingBtn(View view) {
@@ -83,12 +83,8 @@ public class SearchResult extends AppCompatActivity  {
         String courseName = intent.getStringExtra("courseName");
         String courseNumber = intent.getStringExtra("courseNumber");
 
-        Log.i("APPINFO", ""+courseName);
-        Log.i("APPINFO", ""+courseNumber);
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_result);
-
         // Making Links to Buttons on Create
         createBtn = (Button) findViewById(R.id.createBtn);
         searchBtn = (Button) findViewById(R.id.searchBtn);
@@ -96,7 +92,7 @@ public class SearchResult extends AppCompatActivity  {
         settingBtn = (Button) findViewById(R.id.settingBtn);
 
 
-        //Changing the button colors
+        // Changing the button colors
         searchBtn.setTextColor(0xFFFFFFFF);
         createBtn.setTextColor(0xFFBFBFBF);
         myGroupBtn.setTextColor(0xFFBFBFBF);
@@ -107,11 +103,13 @@ public class SearchResult extends AppCompatActivity  {
         textView.setText(courseName + " " + courseNumber);
 
         listItems = new ArrayList<>();
+        objectIDs = new ArrayList<>();
 
 
         ParseQuery<ParseObject> roomQuery = ParseQuery.getQuery("Room");
         roomQuery.whereEqualTo("course" , courseName);
-        roomQuery.whereEqualTo("number", courseNumber);
+        roomQuery.whereEqualTo("number" , courseNumber);
+
         roomQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
@@ -119,16 +117,31 @@ public class SearchResult extends AppCompatActivity  {
                 if (e == null) {
                     for (ParseObject room : objects) {
 
+
                         Log.i("Appinfo", String.valueOf(room.get("title")));
+
                         String stringToAdd = "";
+
+                        String opened = String.valueOf(room.get("opened"));
+                        String x;
+                        if(opened.equals(true)){
+                            x = "Open";
+                        }else{
+                            x = "Closed";
+                        }
+                        String objectID = String.valueOf(room.get("objectID"));
                         stringToAdd = stringToAdd + String.valueOf(room.get("studyDate")) + "   " +
-                                String.valueOf(room.get("category")) + "    " + String.valueOf(room.get("opened") + "\n")
+                                String.valueOf(room.get("category")) + "    " + x + "\n"
                                 + String.valueOf(room.get("title")) +
                                 "            "
                         ;
                         listItems.add(stringToAdd);
+                        objectIDs.add(objectID);
+
                         Log.i("Appinfo", "A");
                     }
+
+
                 } else {
                     Log.i("Appinfo", "B");
                     e.printStackTrace();
@@ -137,29 +150,28 @@ public class SearchResult extends AppCompatActivity  {
             }
         });
         initList();
-//        listView.setOnItemClickListener((AdapterView.OnItemClickListener) this);
+
     }
-    public void initList(){
+    public void initList() {
 
         Log.i("Appinfo", "C");
 
 
 
-        adapter = new ArrayAdapter<String>(this, R.layout.list_list, R.id.txtitem, listItems);
+        adapter = new ArrayAdapter<String>(this, R.layout.list_two, R.id.txtvw, listItems);
         listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getApplicationContext(), Room.class);
-                String category = listItems.get(position);
-
-
-            }
-        });
+        listView.setOnItemClickListener(this);
 
 
     }
 
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent intent = new Intent(getApplicationContext(), Room.class);
+        String passingID = objectIDs.get(position);
+        intent.putExtra("objectID", passingID);
+        startActivity(intent);
 
+    }
 }

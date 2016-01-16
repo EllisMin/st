@@ -103,4 +103,4 @@ Group"
         android:layout_above="@+id/buttonBar" />
 
 </RelativeLayout>
-<!-- From: file:/Users/mjpark/AndroidStudioProjects/st/ParseStarterProject/src/main/res/layout/activity_my_group.xml -->
+<!-- From: file:/Users/taehongmin/AndroidStudioProjects/st/ParseStarterProject/src/main/res/layout/activity_my_group.xml -->
