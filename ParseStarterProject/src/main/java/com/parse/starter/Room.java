@@ -54,11 +54,13 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
     Button deleteBtn;
     Button editBtn;
     Button joinBtn;
+    Button editDoneBtn;
     Spinner category;
     ImageView masterPhoto;
     EditText commentBox;
     Button commentBtn;
     ListView commentList;
+    TextView categoryText;
 
     Comments commentObj;
     List<Comments> commentItem;
@@ -150,9 +152,11 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
         //TODO
         // When it is not meant to be edited, change to textview
         category = (Spinner) findViewById(R.id.category);
+        categoryText = (TextView) findViewById(R.id.categoryText);
         joinBtn = (Button) findViewById(R.id.joinBtn);
         editBtn = (Button) findViewById(R.id.editBtn);
         deleteBtn = (Button) findViewById(R.id.deleteBtn);
+        editDoneBtn = (Button) findViewById(R.id.editDoneBtn);
         commentBtn = (Button) findViewById(R.id.commentBtn);
         commentBox = (EditText) findViewById(R.id.commentBox);
         commentList = (ListView) findViewById(R.id.commentList);
@@ -161,15 +165,13 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
 
 
 
-        //TODO
-        // Get course name and number from search_result
+
+        // Get objectID from search_result
         Intent intent = getIntent();
-//        objectIdRoom = "8iI6bBcHpF";
         objectIdRoom = intent.getStringExtra("objectID");
         Log.i("AppInfo",objectIdRoom);
         // Get objectId
 
-        // McpbuuzFJh
         ParseQuery<ParseObject> roomQuery = ParseQuery.getQuery("Room");
         roomQuery.whereEqualTo("objectId", objectIdRoom);
         roomQuery.findInBackground(new FindCallback<ParseObject>() {
@@ -185,17 +187,18 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
                     String categoryTemp = String.valueOf(objects.get(0).get("category"));
                     int cateNum;
                     if (categoryTemp.equals("Exam")) {
-                        cateNum = 0;
-                    } else if (categoryTemp.equals("Quiz")) {
                         cateNum = 1;
-                    } else if (categoryTemp.equals("Homework")) {
+                    } else if (categoryTemp.equals("Quiz")) {
                         cateNum = 2;
-                    } else if (categoryTemp.equals("Project")) {
+                    } else if (categoryTemp.equals("Homework")) {
                         cateNum = 3;
-                    } else {
+                    } else if (categoryTemp.equals("Project")) {
                         cateNum = 4;
+                    } else {
+                        cateNum = 5;
                     }
                     category.setSelection(cateNum);
+                    categoryText.setText(categoryTemp);
                     courseName.setText(String.valueOf(objects.get(0).get("course")));
                     courseNumber.setText(String.valueOf(objects.get(0).get("number")));
                     description.setText(String.valueOf(objects.get(0).get("description")));
@@ -209,10 +212,27 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
                     } else {
                         opened = false;
                     }
-                    // TODO
-                    // Get userId of bang-jang
-                    userId = (String.valueOf(objects.get(0).get("ACL")));
 
+                    // Get userId of bang-jang
+
+                    ParseObject bangjang = (ParseObject) objects.get(0).get("createdBy");
+                    userId = bangjang.getObjectId();
+
+                    Log.i("AppinfoBangjang", userId);
+                    Log.i("AppinfoBangjang", ParseUser.getCurrentUser().getObjectId());
+                    String currentUserId = ParseUser.getCurrentUser().getObjectId();
+                    // If login user is not creater of room, no show of edit and delete buttons.
+                    if(currentUserId.equals(userId)){
+                        roomEditable = true;
+                        Log.i("AppinfoBangjang","roomeditable is true");
+                    }else{
+                        roomEditable = false;
+                        Log.i("AppinfoBangjang","roomeditable is false");
+                        // Make buttons invisible when it is not edit mode
+                        editBtn.setVisibility(View.INVISIBLE);
+                        deleteBtn.setVisibility(View.INVISIBLE);
+
+                    }
 
 
                 } else {
@@ -221,18 +241,11 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
             }
         });
 
+        category.setVisibility(View.INVISIBLE);
+        editDoneBtn.setVisibility(View.VISIBLE);
 
-        // If login user is not create of room, no show of edit and delete buttons.
-        if(String.valueOf(ParseUser.getCurrentUser().getObjectId()).equals(userId)){
-            roomEditable = true;
 
-        }else{
-            roomEditable = false;
-            // Make buttons invisible when it is not edit mode
-            editBtn.setVisibility(View.INVISIBLE);
-            deleteBtn.setVisibility(View.INVISIBLE);
 
-        }
 
 
 
@@ -263,6 +276,8 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
                 }
             }
         });
+
+
 
 
         // comment adapter
@@ -427,6 +442,16 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
         viewEnable(b, capacity);
         viewEnable(b, description);
         viewEnable(b, masterPhoto);
+
+        if(b){
+            categoryText.setVisibility(View.INVISIBLE);
+            category.setVisibility(View.VISIBLE);
+            editDoneBtn.setVisibility(View.VISIBLE);
+        }else{
+            category.setVisibility(View.INVISIBLE);
+            categoryText.setVisibility(View.VISIBLE);
+            editDoneBtn.setVisibility(View.INVISIBLE);
+        }
     }
 
     /*
@@ -450,6 +475,28 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
      */
     public void editBtn(View view){
         editMode(true);
+    }
+
+    /*
+        edit Done Button is tapped.
+     */
+    public void editDoneBtn(View view){
+        editMode(false);
+        //update the info in Parse
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Room");
+        query.whereEqualTo("objectId", objectIdRoom);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (e == null) {
+                    Log.i("Appinfo", "Updating editted infos fail");
+
+                } else {
+                    Log.i("Appinfo", "Updating editted infos fail");
+                }
+            }
+        });
+        //update the room page(category)
     }
 
     /*

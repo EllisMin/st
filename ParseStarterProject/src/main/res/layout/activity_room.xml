@@ -111,6 +111,16 @@
         android:layout_toEndOf="@+id/dateTextView"
         android:layout_below="@+id/roomTitle"
         android:layout_above="@+id/dateTextView" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Category"
+        android:id="@+id/categoryText"
+        android:layout_toRightOf="@+id/dateTextView"
+        android:layout_toEndOf="@+id/dateTextView"
+        android:layout_below="@+id/roomTitle"
+        android:layout_above="@+id/dateTextView" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -185,6 +195,16 @@
         android:layout_height="wrap_content"
         android:id="@+id/commentList"
         android:layout_marginTop="345dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Done"
+        android:id="@+id/editDoneBtn"
+        android:layout_above="@+id/commentBox"
+        android:layout_toLeftOf="@+id/joinBtn"
+        android:layout_toStartOf="@+id/joinBtn"
+        android:onClick="editDoneBtn" />
 
 
 </RelativeLayout>

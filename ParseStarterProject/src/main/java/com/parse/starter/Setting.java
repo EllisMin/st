@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -42,6 +43,7 @@ public class Setting extends AppCompatActivity implements View.OnClickListener {
     ImageView profilePhoto;
     TextView userName;
     TextView version;
+    CheckBox emailCheckBox;
     final String APPVERSION = "0.0.0.000001";
 
     // when Search button is tapped
@@ -68,7 +70,6 @@ public class Setting extends AppCompatActivity implements View.OnClickListener {
         startActivity(i);
     }
 
-
     // Temporary logout button
     public void tempLogOut(View view) {
         Log.i("AppINFO", "btn clicked!");
@@ -93,6 +94,8 @@ public class Setting extends AppCompatActivity implements View.OnClickListener {
         profilePhoto = (ImageView) findViewById(R.id.profilePhoto_setting);
         userName = (TextView) findViewById(R.id.userNameLabel);
         version = (TextView) findViewById(R.id.version);
+        emailCheckBox = (CheckBox) findViewById(R.id.emailCheckBox);
+
 
         //Changing the button colors
         searchBtn.setTextColor(0xFFBFBFBF);

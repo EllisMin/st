@@ -86,45 +86,107 @@ Group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Account Settings"
-        android:id="@+id/accountSetting"
-        android:layout_marginTop="33dp"
-        android:layout_below="@+id/userNameLabel"
-        android:layout_alignRight="@+id/version"
-        android:layout_alignEnd="@+id/version"
-        android:onClick="onClick" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Notification"
-        android:id="@+id/notification"
-        android:layout_centerVertical="true"
-        android:layout_alignLeft="@+id/accountSetting"
-        android:layout_alignStart="@+id/accountSetting" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="APPVERSION"
         android:id="@+id/version"
         android:layout_above="@+id/buttonBar"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_toLeftOf="@+id/userNameLabel"
+        android:layout_alignParentRight="true"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Debug"
-        android:id="@+id/debugLabel"
-        android:onClick="onClick"
-        android:nestedScrollingEnabled="true"
-        android:layout_marginBottom="39dp"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_above="@+id/version"
-        android:layout_alignLeft="@+id/notification"
-        android:layout_alignStart="@+id/notification" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/userNameLabel"
+        android:id="@+id/relativeLayout">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/iconAccount"
+            android:src="@drawable/users"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="10dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Account Settings"
+            android:id="@+id/accountSetting"
+            android:onClick="onClick"
+            android:layout_alignTop="@+id/iconAccount"
+            android:layout_toRightOf="@+id/iconAccount"
+            android:layout_toEndOf="@+id/iconAccount"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="20dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Notification"
+            android:id="@+id/notification"
+            android:layout_alignTop="@+id/iconNotification"
+            android:layout_alignLeft="@+id/accountSetting"
+            android:layout_marginTop="12dp"/>
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/iconNotification"
+            android:layout_below="@+id/iconAccount"
+            android:layout_alignLeft="@+id/iconAccount"
+            android:layout_marginTop="30dp"
+
+            android:src="@drawable/new_mail"/>
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/emailCheckBox"
+            android:layout_alignTop="@+id/iconNotification"
+            android:layout_toRightOf="@+id/notification"
+            android:layout_toEndOf="@+id/notification"
+            android:checked="false"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="* Check to receive any email notification from your group"
+            android:id="@+id/textView11"
+            android:layout_below="@+id/iconNotification"
+            android:layout_alignLeft="@+id/notification"
+            android:layout_alignStart="@+id/notification"
+            android:maxWidth="200dp"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/info"
+            android:id="@+id/iconDebug"
+            android:layout_alignLeft="@+id/iconNotification"
+            android:layout_below="@+id/iconNotification"
+            android:layout_marginTop="40dp"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Report Bug"
+            android:id="@+id/debugLabel"
+            android:onClick="onClick"
+            android:layout_alignLeft="@+id/notification"
+            android:layout_alignTop="@id/iconDebug"
+            android:layout_marginTop="12dp"
+            android:nestedScrollingEnabled="true"/>
+    </RelativeLayout>
 
 </RelativeLayout>

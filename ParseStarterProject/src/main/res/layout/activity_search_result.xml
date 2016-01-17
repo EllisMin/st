@@ -30,7 +30,7 @@
             android:text="Search"
             android:background="#f56770"
             android:textColor="#ffffff"
-             />
+            />
 
         <Button android:id="@+id/createBtn"
             android:layout_width="wrap_content"
@@ -80,7 +80,7 @@ Group"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_above="@+id/buttonBar"
-        android:layout_below="@+id/textView2" />
+        android:layout_below="@+id/textView16" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -91,6 +91,17 @@ Group"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date/Time    Title                                      Category    Availability"
+        android:id="@+id/textView16"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView2"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 
 </RelativeLayout>
