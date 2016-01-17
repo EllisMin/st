@@ -515,7 +515,7 @@ int drawable tools 0x7f020045
 int drawable users 0x7f020046
 int id Email 0x7f0d008f
 int id Username 0x7f0d008e
-int id accountSetting 0x7f0d00ab
+int id accountSetting 0x7f0d00aa
 int id action0 0x7f0d00c1
 int id action_bar 0x7f0d0057
 int id action_bar_activity_content 0x7f0d0000
@@ -538,7 +538,6 @@ int id always 0x7f0d002b
 int id backBtn 0x7f0d00a4
 int id beginning 0x7f0d0029
 int id bottom 0x7f0d001a
-int id button 0x7f0d00a5
 int id buttonBar 0x7f0d0066
 int id buttonPanel 0x7f0d004d
 int id cancel_action 0x7f0d00c2
@@ -574,7 +573,7 @@ int id custom 0x7f0d004c
 int id customPanel 0x7f0d004b
 int id date 0x7f0d00ba
 int id dateTextView 0x7f0d0079
-int id debugLabel 0x7f0d00b1
+int id debugLabel 0x7f0d00b0
 int id decor_content_parent 0x7f0d0055
 int id default_activity_button 0x7f0d0040
 int id deleteBtn 0x7f0d0096
@@ -586,7 +585,7 @@ int id dropdown 0x7f0d0031
 int id editBtn 0x7f0d0095
 int id editDoneBtn 0x7f0d009a
 int id edit_query 0x7f0d0059
-int id emailCheckBox 0x7f0d00ae
+int id emailCheckBox 0x7f0d00ad
 int id emailWarning 0x7f0d0076
 int id end 0x7f0d0020
 int id end_padder 0x7f0d00cc
@@ -604,9 +603,9 @@ int id grpSearchbtn 0x7f0d00a1
 int id home 0x7f0d0004
 int id homeAsUp 0x7f0d000e
 int id icon 0x7f0d0042
-int id iconAccount 0x7f0d00aa
-int id iconDebug 0x7f0d00b0
-int id iconNotification 0x7f0d00ad
+int id iconAccount 0x7f0d00a9
+int id iconDebug 0x7f0d00af
+int id iconNotification 0x7f0d00ac
 int id ifRoom 0x7f0d002d
 int id image 0x7f0d003f
 int id imageView 0x7f0d0083
@@ -618,6 +617,7 @@ int id line3 0x7f0d00c9
 int id listMode 0x7f0d000a
 int id listView 0x7f0d00a2
 int id list_item 0x7f0d0041
+int id logOutBtn 0x7f0d00b1
 int id loginBtn 0x7f0d0087
 int id masterPhoto 0x7f0d0094
 int id media_actions 0x7f0d00c4
@@ -631,7 +631,7 @@ int id newEmail 0x7f0d0073
 int id newPwd 0x7f0d006e
 int id none 0x7f0d000f
 int id normal 0x7f0d000b
-int id notification 0x7f0d00ac
+int id notification 0x7f0d00ab
 int id numEditText 0x7f0d009f
 int id numListView 0x7f0d00a0
 int id numberList 0x7f0d0082
@@ -641,14 +641,14 @@ int id parentPanel 0x7f0d0044
 int id password 0x7f0d0085
 int id pin 0x7f0d0019
 int id profilePhoto 0x7f0d0091
-int id profilePhoto_setting 0x7f0d00a6
+int id profilePhoto_setting 0x7f0d00a5
 int id progress_circular 0x7f0d0005
 int id progress_horizontal 0x7f0d0006
 int id pwdWarning 0x7f0d0077
 int id radio 0x7f0d0051
 int id registerBtn 0x7f0d0086
 int id relative 0x7f0d009b
-int id relativeLayout 0x7f0d00a9
+int id relativeLayout 0x7f0d00a8
 int id right 0x7f0d0025
 int id roomTitle 0x7f0d0078
 int id screen 0x7f0d0036
@@ -688,7 +688,7 @@ int id text2 0x7f0d00c8
 int id textSpacerNoButtons 0x7f0d004a
 int id textView 0x7f0d008d
 int id textView10 0x7f0d006d
-int id textView11 0x7f0d00af
+int id textView11 0x7f0d00ae
 int id textView12 0x7f0d00bd
 int id textView13 0x7f0d00be
 int id textView14 0x7f0d00bf
@@ -713,9 +713,9 @@ int id txtitem 0x7f0d00bc
 int id up 0x7f0d0008
 int id updateBtn 0x7f0d0075
 int id useLogo 0x7f0d0013
-int id userNameLabel 0x7f0d00a7
+int id userNameLabel 0x7f0d00a6
 int id username 0x7f0d0084
-int id version 0x7f0d00a8
+int id version 0x7f0d00a7
 int id view_offset_helper 0x7f0d0009
 int id withText 0x7f0d002f
 int id wrap_content 0x7f0d0034

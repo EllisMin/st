@@ -7,6 +7,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
+import com.parse.ParseACL;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -40,6 +41,9 @@ public class Group {
             , boolean timePassed, List members) {
         super();
         ParseObject obj = new ParseObject("Room");
+        ParseACL postACL = new ParseACL(ParseUser.getCurrentUser());
+        postACL.setPublicReadAccess(true);
+        obj.setACL(postACL);
         obj.put("title", title);
         obj.put("course", courseName);
         obj.put("number", courseNumber);

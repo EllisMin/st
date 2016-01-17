@@ -2010,7 +2010,7 @@ containing a value of this type.
     public static final class id {
         public static final int Email=0x7f0d008f;
         public static final int Username=0x7f0d008e;
-        public static final int accountSetting=0x7f0d00ab;
+        public static final int accountSetting=0x7f0d00aa;
         public static final int action0=0x7f0d00c1;
         public static final int action_bar=0x7f0d0057;
         public static final int action_bar_activity_content=0x7f0d0000;
@@ -2033,7 +2033,6 @@ containing a value of this type.
         public static final int backBtn=0x7f0d00a4;
         public static final int beginning=0x7f0d0029;
         public static final int bottom=0x7f0d001a;
-        public static final int button=0x7f0d00a5;
         public static final int buttonBar=0x7f0d0066;
         public static final int buttonPanel=0x7f0d004d;
         public static final int cancel_action=0x7f0d00c2;
@@ -2069,7 +2068,7 @@ containing a value of this type.
         public static final int customPanel=0x7f0d004b;
         public static final int date=0x7f0d00ba;
         public static final int dateTextView=0x7f0d0079;
-        public static final int debugLabel=0x7f0d00b1;
+        public static final int debugLabel=0x7f0d00b0;
         public static final int decor_content_parent=0x7f0d0055;
         public static final int default_activity_button=0x7f0d0040;
         public static final int deleteBtn=0x7f0d0096;
@@ -2081,7 +2080,7 @@ containing a value of this type.
         public static final int editBtn=0x7f0d0095;
         public static final int editDoneBtn=0x7f0d009a;
         public static final int edit_query=0x7f0d0059;
-        public static final int emailCheckBox=0x7f0d00ae;
+        public static final int emailCheckBox=0x7f0d00ad;
         public static final int emailWarning=0x7f0d0076;
         public static final int end=0x7f0d0020;
         public static final int end_padder=0x7f0d00cc;
@@ -2099,9 +2098,9 @@ containing a value of this type.
         public static final int home=0x7f0d0004;
         public static final int homeAsUp=0x7f0d000e;
         public static final int icon=0x7f0d0042;
-        public static final int iconAccount=0x7f0d00aa;
-        public static final int iconDebug=0x7f0d00b0;
-        public static final int iconNotification=0x7f0d00ad;
+        public static final int iconAccount=0x7f0d00a9;
+        public static final int iconDebug=0x7f0d00af;
+        public static final int iconNotification=0x7f0d00ac;
         public static final int ifRoom=0x7f0d002d;
         public static final int image=0x7f0d003f;
         public static final int imageView=0x7f0d0083;
@@ -2113,6 +2112,7 @@ containing a value of this type.
         public static final int listMode=0x7f0d000a;
         public static final int listView=0x7f0d00a2;
         public static final int list_item=0x7f0d0041;
+        public static final int logOutBtn=0x7f0d00b1;
         public static final int loginBtn=0x7f0d0087;
         public static final int masterPhoto=0x7f0d0094;
         public static final int media_actions=0x7f0d00c4;
@@ -2126,7 +2126,7 @@ containing a value of this type.
         public static final int newPwd=0x7f0d006e;
         public static final int none=0x7f0d000f;
         public static final int normal=0x7f0d000b;
-        public static final int notification=0x7f0d00ac;
+        public static final int notification=0x7f0d00ab;
         public static final int numEditText=0x7f0d009f;
         public static final int numListView=0x7f0d00a0;
         public static final int numberList=0x7f0d0082;
@@ -2136,14 +2136,14 @@ containing a value of this type.
         public static final int password=0x7f0d0085;
         public static final int pin=0x7f0d0019;
         public static final int profilePhoto=0x7f0d0091;
-        public static final int profilePhoto_setting=0x7f0d00a6;
+        public static final int profilePhoto_setting=0x7f0d00a5;
         public static final int progress_circular=0x7f0d0005;
         public static final int progress_horizontal=0x7f0d0006;
         public static final int pwdWarning=0x7f0d0077;
         public static final int radio=0x7f0d0051;
         public static final int registerBtn=0x7f0d0086;
         public static final int relative=0x7f0d009b;
-        public static final int relativeLayout=0x7f0d00a9;
+        public static final int relativeLayout=0x7f0d00a8;
         public static final int right=0x7f0d0025;
         public static final int roomTitle=0x7f0d0078;
         public static final int screen=0x7f0d0036;
@@ -2183,7 +2183,7 @@ containing a value of this type.
         public static final int textSpacerNoButtons=0x7f0d004a;
         public static final int textView=0x7f0d008d;
         public static final int textView10=0x7f0d006d;
-        public static final int textView11=0x7f0d00af;
+        public static final int textView11=0x7f0d00ae;
         public static final int textView12=0x7f0d00bd;
         public static final int textView13=0x7f0d00be;
         public static final int textView14=0x7f0d00bf;
@@ -2208,9 +2208,9 @@ containing a value of this type.
         public static final int up=0x7f0d0008;
         public static final int updateBtn=0x7f0d0075;
         public static final int useLogo=0x7f0d0013;
-        public static final int userNameLabel=0x7f0d00a7;
+        public static final int userNameLabel=0x7f0d00a6;
         public static final int username=0x7f0d0084;
-        public static final int version=0x7f0d00a8;
+        public static final int version=0x7f0d00a7;
         public static final int view_offset_helper=0x7f0d0009;
         public static final int withText=0x7f0d002f;
         public static final int wrap_content=0x7f0d0034;

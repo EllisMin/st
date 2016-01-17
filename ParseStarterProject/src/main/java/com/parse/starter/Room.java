@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
@@ -481,7 +482,6 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
         edit Done Button is tapped.
      */
     public void editDoneBtn(View view){
-        editMode(false);
         //update the info in Parse
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Room");
         query.whereEqualTo("objectId", objectIdRoom);
@@ -490,13 +490,37 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
             public void done(List<ParseObject> objects, ParseException e) {
                 if (e == null) {
                     Log.i("Appinfo", "Updating editted infos fail");
+                    //If all required fields are not filled
+                    if(selectedCategory.toString().matches("Category")||
+                            capacity.getText().toString().matches("")||
+                            dateTextView.getText().toString().matches("Set Date")||
+                            timeTextView.getText().toString().matches("Set Time")||
+                            description.getText().toString().matches("")||
+                            roomTitle.getText().toString().matches("")){
+                        //Error message
+                        Toast.makeText(getApplicationContext(), "Please fill out all required fields", Toast.LENGTH_SHORT).show();
+                        return;
 
+                    }else{
+                        //If all required fields are filled
+                        ParseObject obj = objects.get(0);
+                        obj.put("title", String.valueOf(roomTitle.getText()));
+                        obj.put("category", selectedCategory);
+                        obj.put("studyDate", String.valueOf(dateTextView.getText()));
+                        obj.put("studyTime", String.valueOf(timeTextView.getText()));
+                        obj.put("description", String.valueOf(description.getText()));
+                        obj.put("capacity", Integer.parseInt(String.valueOf(capacity.getText())));
+                        obj.saveInBackground();
+
+                        editMode(false);
+                    }
                 } else {
                     Log.i("Appinfo", "Updating editted infos fail");
                 }
             }
         });
         //update the room page(category)
+         categoryText.setText(selectedCategory);
     }
 
     /*
@@ -524,6 +548,18 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
         i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivity(i);
     }
+
+    /*
+        when join button is tapped
+     */
+    public void joinBtn(View view){
+        // join to parse
+
+        // Toast message
+
+        // my group
+    }
+
 
 
     /*

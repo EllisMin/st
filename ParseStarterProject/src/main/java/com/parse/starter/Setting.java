@@ -1,6 +1,7 @@
 package com.parse.starter;
 
 import android.accounts.Account;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -18,8 +19,10 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.parse.FindCallback;
@@ -71,13 +74,60 @@ public class Setting extends AppCompatActivity implements View.OnClickListener {
     }
 
     // Temporary logout button
-    public void tempLogOut(View view) {
+    public void tempLogOut(View View){
         Log.i("AppINFO", "btn clicked!");
-        // Logout
-        ParseUser.logOut();
-        // Show login Page
-        Intent i = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(i);
+
+        // create listener method
+        DialogInterface.OnClickListener dialogClickListener
+                = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch(which) {
+                    case DialogInterface.BUTTON_POSITIVE:
+                        // yes button clicked: logout and go to main page
+                        ParseUser.logOut();
+                        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(i);
+
+                        break;
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        // no button clicked: go back to setting page
+                        break;
+                }
+            }
+        };
+
+        // Build alert dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(View.getContext());
+
+        // set message with yes & no button
+        builder.setMessage("Logout?");
+        builder.setPositiveButton("Yes", dialogClickListener);
+        builder.setNegativeButton("No", dialogClickListener);
+
+        // display an Yes or No windwo
+        builder.show();
+    }
+
+    public void checkBox(CheckBox checkBox) {
+
+        // retrieve user object
+        final ParseUser currUser = ParseUser.getCurrentUser();
+        // see if user check the email notification checkbox
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // if the button is checked, set user's emailNotification field true
+                if (isChecked) {
+                    currUser.put("emailNotification", true);
+                    currUser.saveEventually();
+
+                } else {        // false if unchecked
+                    currUser.put("emailNotification", false);
+                    currUser.saveEventually();
+                }
+            }
+        });
     }
 
 
@@ -103,7 +153,12 @@ public class Setting extends AppCompatActivity implements View.OnClickListener {
         myGroupBtn.setTextColor(0xFFBFBFBF);
         settingBtn.setTextColor(0xFFFFFFFF);
         try {
+            // load the image
             loadTheImage();
+
+            // check the value of email checkbox
+            checkBox(emailCheckBox);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -112,6 +167,8 @@ public class Setting extends AppCompatActivity implements View.OnClickListener {
         // Load app version (final variable that is on the top)
         version.setText(APPVERSION);
     }
+
+
 
     // Loading the image from parse
     private void loadTheImage() throws IOException {
