@@ -89,6 +89,7 @@
             android:id="@+id/deleteBtn"
             android:layout_column="4"
             android:background="#becabe"
+            android:onClick="deleteBtn"
             android:layout_marginLeft="10dp" />
 
     </TableRow>

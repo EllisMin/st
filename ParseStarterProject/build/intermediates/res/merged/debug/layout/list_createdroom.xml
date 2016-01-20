@@ -89,9 +89,10 @@
             android:id="@+id/deleteBtn"
             android:layout_column="4"
             android:background="#becabe"
+            android:onClick="deleteBtn"
             android:layout_marginLeft="10dp" />
 
     </TableRow>
 
 </TableLayout>
-<!-- From: file:/C:/Users/Junwoo/Desktop/st/ParseStarterProject/src/main/res/layout/list_createdroom.xml -->
+<!-- From: file:/Users/taehongmin/AndroidStudioProjects/st/ParseStarterProject/src/main/res/layout/list_createdroom.xml -->

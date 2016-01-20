@@ -40,7 +40,7 @@ public class MyGroup extends AppCompatActivity {
     Button searchBtn;
     Button myGroupBtn;
     Button settingBtn;
-//    List<ParseObject> groups = new ArrayList<>(); // All rooms
+//  List<ParseObject> groups = new ArrayList<>(); // All rooms
     List<ParseObject> myGroups = new ArrayList<>();
     List<ParseObject> otherGroups = new ArrayList<>();
     List<String> objectIDs;
@@ -137,8 +137,8 @@ public class MyGroup extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id) {
                 // behavior when tapped
-                String message = "you clicked #" + position + ", which is string: " + parent.getItemAtPosition(position);
-                Toast.makeText(MyGroup.this, message, Toast.LENGTH_SHORT).show();
+//                String message = "you clicked #" + position + ", which is string: " + parent.getItemAtPosition(position);
+//                Toast.makeText(MyGroup.this, message, Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(getApplicationContext(), Room.class);
 //                String passingID = objectIDs.get(position); // room's obj id
                 ParseObject obj = (ParseObject) parent.getItemAtPosition(position);
@@ -166,7 +166,6 @@ public class MyGroup extends AppCompatActivity {
                 Log.i("APPINFO", "view is null");
                 itemView = getLayoutInflater().inflate(R.layout.list_createdroom, parent, false);
             }
-
             // Find the group
             ParseObject currentGroup = list.get(position);
 
@@ -188,6 +187,10 @@ public class MyGroup extends AppCompatActivity {
 
             TextView courseNumber = (TextView) itemView.findViewById(R.id.courseNumber);
             courseNumber.setText(String.valueOf(currentGroup.get("number")));
+
+            Button deleteBtn = (Button) itemView.findViewById(R.id.deleteBtn);
+//            deleteBtn.setOnClickListener();
+
 
             return itemView;
         }

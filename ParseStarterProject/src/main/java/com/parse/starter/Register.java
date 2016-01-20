@@ -124,7 +124,6 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
             Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(i, 1);
-
         }
     }
 
