@@ -150,8 +150,6 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
         capacity = (EditText) findViewById(R.id.capacity);
         masterPhoto = (ImageView) findViewById(R.id.masterPhoto);
         description = (EditText) findViewById(R.id.description);
-        //TODO
-        // When it is not meant to be edited, change to textview
         category = (Spinner) findViewById(R.id.category);
         categoryText = (TextView) findViewById(R.id.categoryText);
         joinBtn = (Button) findViewById(R.id.joinBtn);
@@ -226,6 +224,7 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
                     if(currentUserId.equals(userId)){
                         roomEditable = true;
                         Log.i("AppinfoBangjang","roomeditable is true");
+                        joinBtn.setVisibility(View.INVISIBLE);
                     }else{
                         roomEditable = false;
                         Log.i("AppinfoBangjang","roomeditable is false");
@@ -314,7 +313,7 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
             // ImageView
 //            commentPhoto= (ImageView) cmtView.findViewById(R.id.commentPhoto);
 
-            String objectIdOfCommentUser = commentObject.getCommenterId();
+            final String objectIdOfCommentUser = commentObject.getCommenterId();
 
             // Get the user and image from him
 
@@ -324,6 +323,8 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
                 @Override
                 public void done(List<ParseObject> objects, ParseException e) {
                     if (e == null) {
+                        Log.i("Appinfo","CommentUser Id : "+ objectIdOfCommentUser);
+                        Log.i("Appinfo", "Objects size: "+ objects.size());
                         ParseObject userObj = objects.get(0);
                         userPhoto = userObj.getParseFile("photo");
                         commentUser = userObj.getString("username");
@@ -364,7 +365,7 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
 
 
             // Comment Date
-            commentDate = (TextView) findViewById(R.id.commentDate);
+            commentDate = (TextView) cmtView.findViewById(R.id.commentDate);
             commentDate.setText(printDate(commentObject.getDate()));
 
 
@@ -520,7 +521,7 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
             }
         });
         //update the room page(category)
-         categoryText.setText(selectedCategory);
+        categoryText.setText(selectedCategory);
     }
 
     /*
@@ -554,10 +555,44 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
      */
     public void joinBtn(View view){
         // join to parse
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Room");
+        query.whereEqualTo("objectId", objectIdRoom);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (e == null) {
+                    ParseObject roomObj = objects.get(0);
+                    // Get member List
+                    ArrayList<ParseUser> memberList = (ArrayList<ParseUser>) roomObj.get("member");
+                    // See if current user is already on the list
+                    Boolean found = false;
+                    for (ParseUser member : memberList) {
+                        if (member.getObjectId().equals(ParseUser.getCurrentUser().getObjectId())) {
+                            found = true;
+                            Toast.makeText(getApplicationContext(), "Already Joined this Study Group", Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+                    }
+                    // If current user is not on the member list, add him/her to the list
+                    if (!found) {
+                        roomObj.add("member", ParseUser.getCurrentUser());
+                        roomObj.saveEventually();
+                    }
+
+                } else {
+                    Log.i("Appinfo", "Join fail");
+                }
+            }
+        });
 
         // Toast message
+        Toast.makeText(getApplicationContext(), "Succesfully joined the group!", Toast.LENGTH_SHORT).show();
+        // Go to my group page
+        Intent i = new Intent(getApplicationContext(), MyGroup.class);
+        // Removes animation
+        i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(i);
 
-        // my group
     }
 
 
@@ -568,9 +603,11 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
     public void commentBtn(View view) {
         if(commentBox.getText().equals("")){
             // Do Nothing
+            Log.i("Appinfo","Nothing on comment Box!");
         }else{
+            Log.i("Appinfo", "Something on comment box!");
 
-            // add it to the commentItems for commentList and update the change.
+            // Add the comment to the parse
             String comment = String.valueOf(commentBox.getText());
             String commenterId = String.valueOf(ParseUser.getCurrentUser().getObjectId());
 
@@ -587,19 +624,24 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
             query.findInBackground(new FindCallback<ParseObject>() {
                 @Override
                 public void done(List<ParseObject> objects, ParseException e) {
-                    if(e == null){
+                    if (e == null) {
                         Log.i("Appinfo", "put comment successfully");
                         objects.get(0).add("comment", commentObj);
                         objects.get(0).saveInBackground();
-                    }else{
-                        Log.i("Appinfo","putting comment fails");
+                    } else {
+                        Log.i("Appinfo", "putting comment fails");
 
                     }
                 }
             });
 
-            // TODO
+
             // Update Comment list
+            commentItem.add(commentObj);
+            Log.i("Appinfo", "Comment is updated!");
+            commentList.setAdapter(commentAdapter);
+            commentBox.setText("");
+
 
 
         }
