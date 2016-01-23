@@ -13,9 +13,9 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="#f0e5da">
-
+    android:layout_height="match_parent"
+    android:background="#f0e5da"
+    android:minHeight="515dp">
 
 
     <EditText
@@ -188,13 +188,16 @@
         android:id="@+id/commentBtn"
         android:layout_below="@+id/joinBtn"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:onClick="commentBtn" />
 
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/commentList"
-        android:layout_marginTop="345dp" />
+        android:layout_toRightOf="@+id/masterPhoto"
+        android:layout_toEndOf="@+id/masterPhoto"
+        android:layout_below="@+id/commentBtn" />
 
     <Button
         android:layout_width="wrap_content"
@@ -236,7 +239,8 @@
             android:layout_weight="1"
             android:background="#f56770"
             android:text="Create"
-            android:textColor="#ffffff"/>
+            android:textColor="#ffffff"
+            android:onClick="createBtn" />
 
         <Button
             android:id="@+id/myGroupBtn"

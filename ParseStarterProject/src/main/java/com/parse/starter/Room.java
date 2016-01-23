@@ -47,6 +47,9 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
     Button myGroupBtn;
     Button settingBtn;
 
+    Bitmap bitmap;
+    String commenterName;
+
     EditText roomTitle;
     TextView courseName;
     TextView courseNumber;
@@ -107,6 +110,14 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
         startActivity(i);
     }
 
+    // when Create button is tapped
+    public void createBtn(View view) {
+        Intent i = new Intent(getApplicationContext(), Create.class);
+        // Removes animation
+        i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(i);
+    }
+
     // When myGroup button is tapped
     public void myGroupBtn(View view){
         Intent i = new Intent(getApplicationContext(), MyGroup.class);
@@ -136,7 +147,7 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
 
         // Changing the button colors
         searchBtn.setTextColor(0xFFBFBFBF);
-        createBtn.setTextColor(0xFFFFFFFF);
+        createBtn.setTextColor(0xFFBFBFBF);
         myGroupBtn.setTextColor(0xFFBFBFBF);
         settingBtn.setTextColor(0xFFBFBFBF);
 
@@ -261,8 +272,8 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
                 if (e == null) {
-                    if(objects.size() == 0){}
-                    else {
+                    if (objects.size() == 0) {
+                    } else {
                         ParseObject course = objects.get(0);
 
                         ArrayList<Comments> temp = (ArrayList<Comments>) course.get("comment");
@@ -277,8 +288,11 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
             }
         });
 
-
-
+//        Bitmap nophoto = BitmapFactory.decodeResource(getResources(), R.drawable.nophoto);
+//
+//        Comments a = new Comments("OMG", "LnmTIFKYmA", new Date(), "userNameNN", nophoto);
+//
+//        commentItem.add(a);
 
         // comment adapter
         commentAdapter = new commentAdapt();
@@ -311,49 +325,8 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
 
             // Fill the view.
             // ImageView
-//            commentPhoto= (ImageView) cmtView.findViewById(R.id.commentPhoto);
-
-            final String objectIdOfCommentUser = commentObject.getCommenterId();
-
-            // Get the user and image from him
-
-            ParseQuery<ParseObject> userQuery = ParseQuery.getQuery("User");
-            userQuery.whereEqualTo("objectId",objectIdOfCommentUser);
-            userQuery.findInBackground(new FindCallback<ParseObject>() {
-                @Override
-                public void done(List<ParseObject> objects, ParseException e) {
-                    if (e == null) {
-                        Log.i("Appinfo","CommentUser Id : "+ objectIdOfCommentUser);
-                        Log.i("Appinfo", "Objects size: "+ objects.size());
-                        ParseObject userObj = objects.get(0);
-                        userPhoto = userObj.getParseFile("photo");
-                        commentUser = userObj.getString("username");
-                    } else {
-                        Log.i("Appinfo", "failed to get user for photo");
-                    }
-                }
-            });
-
-
-
-//            //TODO DongBin
-//            // Set the image to the commentPhoto imageView
-//            if(userPhoto != null){
-//                userPhoto.getDataInBackground(new GetDataCallback() {
-//                    @Override
-//                    public void done(byte[] data, ParseException e) {
-//                        if(e == null){
-//                            Bitmap bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
-//                            commentPhoto.setImageBitmap(bmp);
-//                        }
-//                        else{
-//                            Log.i("Appinfo", "converting Parsefile image to bitmap fails");
-//                        }
-//                    }
-//                });
-//            }else{
-//                Log.i("Appinfo", "Getting the user's photo fails");
-//            }
+            commentPhoto= (ImageView) cmtView.findViewById(R.id.commentPhoto);
+            commentPhoto.setImageBitmap(RoundedImageView.getCroppedBitmap(commentObject.getCommenterPhoto(), 65));
 
             // Commentary Textview
             commentary = (TextView) cmtView.findViewById(R.id.commentary);
@@ -361,7 +334,7 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
 
             // CommentUsername Textview
             commentUsername = (TextView) cmtView.findViewById(R.id.commentUsername);
-            commentUsername.setText(commentUser);
+            commentUsername.setText(commentObject.getCommenterName());
 
 
             // Comment Date
@@ -576,7 +549,14 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
 //                    // If current user is not on the member list, add him/her to the list
                     if (!found) {
                         roomObj.add("member", ParseUser.getCurrentUser());
-                        roomObj.saveEventually();
+                        roomObj.saveInBackground();
+                        // Toast message
+                        Toast.makeText(getApplicationContext(), "Succesfully joined the group!", Toast.LENGTH_SHORT).show();
+                        // Go to my group page
+                        Intent i = new Intent(getApplicationContext(), MyGroup.class);
+                        // Removes animation
+                        i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        startActivity(i);
                     }
                 } else {
                     Log.i("Appinfo", "Join fail");
@@ -584,13 +564,7 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
             }
         });
 
-        // Toast message
-        Toast.makeText(getApplicationContext(), "Succesfully joined the group!", Toast.LENGTH_SHORT).show();
-        // Go to my group page
-        Intent i = new Intent(getApplicationContext(), MyGroup.class);
-        // Removes animation
-        i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        startActivity(i);
+
 
     }
 
@@ -614,9 +588,30 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             Date rightnow = new Date();
 
-            // Comment object
-            commentObj = new Comments(comment, commenterId, rightnow);
+            // Getting the photo from current user's parse data
+            ParseFile image = ParseUser.getCurrentUser().getParseFile("photo");
+            image.getDataInBackground(new GetDataCallback() {
+                @Override
+                public void done(byte[] data, ParseException e) {
+                    // Get bitmap from the parse file
+                    bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                }
+            });
 
+            ParseQuery<ParseUser> userQ = ParseQuery.getQuery("User");
+            userQ.whereEqualTo("objectId", commenterId);
+            userQ.findInBackground(new FindCallback<ParseUser>() {
+                @Override
+                public void done(List<ParseUser> objects, ParseException e) {
+                    for(ParseUser temp: objects){
+                        commenterName = temp.getUsername();
+                    }
+                }
+            });
+
+
+            // Comment object
+            commentObj = new Comments(comment, commenterId, rightnow, commenterName, bitmap);
 
             ParseQuery<ParseObject> query = ParseQuery.getQuery("Room");
             query.whereEqualTo("objectId", objectIdRoom);
@@ -625,8 +620,12 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
                 public void done(List<ParseObject> objects, ParseException e) {
                     if (e == null) {
                         Log.i("Appinfo", "put comment successfully");
-                        objects.get(0).add("comment", commentObj);
-                        objects.get(0).saveInBackground();
+                        Log.i("Appinfo", "Room number" + objects.size());
+                        for (ParseObject temp : objects) {
+                            Log.i("Appinfo", "put comment successfully222222");
+                            temp.add("comment", commentObj);
+                            temp.saveInBackground();
+                        }
                     } else {
                         Log.i("Appinfo", "putting comment fails");
 
@@ -638,7 +637,8 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
             // Update Comment list
             commentItem.add(commentObj);
             Log.i("Appinfo", "Comment is updated!");
-            commentList.setAdapter(commentAdapter);
+            commentAdapter.add(commentObj);
+            commentAdapter.notifyDataSetChanged();
             commentBox.setText("");
 
 

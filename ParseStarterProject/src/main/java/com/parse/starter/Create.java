@@ -61,7 +61,7 @@ public class Create extends FragmentActivity implements AdapterView.OnItemSelect
     ArrayAdapter<String> courseAdapter;
     ArrayAdapter<String> numberAdapter;
 
-    List<String> members;
+    List<ParseUser> members;
 
 //    static List<Group> rooms = new ArrayList<>(); //
     static TextView dateTextView;

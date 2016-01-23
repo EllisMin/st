@@ -40,7 +40,7 @@ public class MyGroup extends AppCompatActivity {
     Button searchBtn;
     Button myGroupBtn;
     Button settingBtn;
-//  List<ParseObject> groups = new ArrayList<>(); // All rooms
+    //  List<ParseObject> groups = new ArrayList<>(); // All rooms
     List<ParseObject> myGroups = new ArrayList<>();
     List<ParseObject> otherGroups = new ArrayList<>();
     List<String> objectIDs;
@@ -94,7 +94,6 @@ public class MyGroup extends AppCompatActivity {
     }
 
     private void populateListView() {
-
         // Use ACL to list the rooms created by oneself
         ParseQuery<ParseObject> roomQuery = ParseQuery.getQuery("Room");
 //        roomQuery.whereEqualTo("course", courseName);
@@ -109,15 +108,21 @@ public class MyGroup extends AppCompatActivity {
                             myGroups.add(obj);
                         }
 
-                        //@TODO
                         // groups that I'm joined in
-//                        else{
-//                            otherGroups.add(obj);
-//                        }
+                        else {
+                            List<ParseUser> memberList = obj.getList("member");
+                            Log.i("APPPPINFO", obj.get("title")+"'s size: " + memberList.size());
+                            for(ParseUser user : memberList){
+                                if(user.equals(ParseUser.getCurrentUser())){
+                                    Log.i("APPPINFO", user.getUsername()); //
+                                    otherGroups.add(obj);
+                                }
+                            }
+                        }
                     }
                     // Build adapter
                     ArrayAdapter<Group> adapter_myGroup = new CustomAdapter(myGroups); // For first listView
-                    ArrayAdapter<Group> adapter_otherGroup = new CustomAdapter(otherGroups);
+                    ArrayAdapter<Group> adapter_otherGroup = new CustomAdapter(otherGroups); // For second
                     // Configure list view
                     ListView list_myGroup = (ListView) findViewById(R.id.myList);
                     list_myGroup.setAdapter(adapter_myGroup);
@@ -196,5 +201,3 @@ public class MyGroup extends AppCompatActivity {
     }
 
 }
-
-
