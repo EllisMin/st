@@ -53,16 +53,16 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         if(imageSelected) {
             // Storing image in byteArray
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bitmapImage.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, stream);
             byte[] byteArray = stream.toByteArray();
-            file = new ParseFile(String.valueOf(usernameField.getText()) + ".jpeg", byteArray);
+            file = new ParseFile(String.valueOf(usernameField.getText()) + ".png", byteArray);
         } else { // When the user does not select an image
             profilePhoto.buildDrawingCache();
             Bitmap bm = profilePhoto.getDrawingCache();
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bm.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            bm.compress(Bitmap.CompressFormat.PNG, 100, stream);
             byte[] byteArray = stream.toByteArray();
-            file = new ParseFile(String.valueOf(usernameField.getText()) + "_default.jpeg", byteArray);
+            file = new ParseFile(String.valueOf(usernameField.getText()) + "_default.png", byteArray);
         }
 
         ParseUser user = new ParseUser();

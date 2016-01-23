@@ -258,9 +258,9 @@ public class Setting extends AppCompatActivity implements View.OnClickListener {
 
                 // Storing an image (in byte array)
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                bitmapImage.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, stream);
                 byte[] byteArray = stream.toByteArray();
-                file = new ParseFile(String.valueOf(ParseUser.getCurrentUser().getUsername() + ".jpeg"), byteArray);
+                file = new ParseFile(String.valueOf(ParseUser.getCurrentUser().getUsername() + ".png"), byteArray);
                 ParseUser.getCurrentUser().put("photo", file);
                 ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
                     @Override

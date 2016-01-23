@@ -563,7 +563,7 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
                 if (e == null) {
                     ParseObject roomObj = objects.get(0);
                     // Get member List
-                    ArrayList<ParseUser> memberList = (ArrayList<ParseUser>) roomObj.get("member");
+                    List<ParseUser> memberList = roomObj.getList("member");
                     // See if current user is already on the list
                     Boolean found = false;
                     for (ParseUser member : memberList) {
@@ -573,12 +573,11 @@ public class Room extends AppCompatActivity implements OnItemSelectedListener {
                             break;
                         }
                     }
-                    // If current user is not on the member list, add him/her to the list
+//                    // If current user is not on the member list, add him/her to the list
                     if (!found) {
                         roomObj.add("member", ParseUser.getCurrentUser());
                         roomObj.saveEventually();
                     }
-
                 } else {
                     Log.i("Appinfo", "Join fail");
                 }

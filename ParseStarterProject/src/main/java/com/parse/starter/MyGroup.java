@@ -69,7 +69,6 @@ public class MyGroup extends AppCompatActivity {
         startActivity(i);
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -188,7 +187,7 @@ public class MyGroup extends AppCompatActivity {
             TextView courseNumber = (TextView) itemView.findViewById(R.id.courseNumber);
             courseNumber.setText(String.valueOf(currentGroup.get("number")));
 
-            Button deleteBtn = (Button) itemView.findViewById(R.id.deleteBtn);
+//            Button deleteBtn = (Button) itemView.findViewById(R.id.deleteBtn);
 //            deleteBtn.setOnClickListener();
 
 

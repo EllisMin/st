@@ -57,8 +57,8 @@ public class Group {
         obj.put("createdBy", ParseUser.getCurrentUser());
         cmt = new ArrayList<Comments>();
         obj.put("comment", cmt);
-        members = new ArrayList<String>();
-        members.add(String.valueOf(ParseUser.getCurrentUser()));
+        members = new ArrayList<ParseUser>();
+        members.add(ParseUser.getCurrentUser());
         Log.i("AppInfo", String.valueOf(ParseUser.getCurrentUser().getObjectId()));
         obj.put("member", members);
 //
